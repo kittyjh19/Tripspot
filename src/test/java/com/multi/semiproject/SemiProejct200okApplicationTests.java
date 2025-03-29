@@ -1,4 +1,4 @@
-package com.multi.semiproejct;
+package com.multi.semiproject;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

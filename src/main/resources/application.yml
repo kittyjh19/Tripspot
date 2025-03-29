@@ -1,0 +1,49 @@
+
+#???? ??? ??? ??
+server:
+  port: ${PORT}
+
+spring:
+  profiles:
+    active: local
+  output: # console? ???? ??? ??? ?
+      ansi:
+        enabled: ALWAYS
+
+
+jwt:
+  issuer: ${JWT_ISSUER}
+  secret: ${JWT_SECRET}
+
+
+mybatis:
+  # mapper.xml location Setting
+  mapper-locations: ${mybatis_mapper-location}
+  configuration:
+    map-underscore-to-camel-case: true
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # SQL ?? ??? ?? ??
+  type-aliases-package: ${mybatis_type-aliases-package}
+
+
+---
+#???
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+logging:
+  level:
+    root: INFO                # ?? ?? ??? INFO? ??
+    jdbc.connection: OFF      # ?? ?? ?? ????
+    jdbc.sqlonly: OFF         # SQL ?? ?? ????
+    jdbc.audit: OFF           # JDBC ?? ?? ?? ????
+    jdbc.resultset: OFF       # JDBC ?? ?? ?? ?? ?? ????
+    org.springframework.security: DEBUG  # Spring Security ??? DEBUG ???? ???
+    com.multi.security: INFO     # ?????? ?? ??? INFO ???? ??
