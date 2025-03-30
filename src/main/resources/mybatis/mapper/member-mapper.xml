@@ -4,8 +4,38 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.multi.semiproject.member.model.dao.MemberMapper">
 
-    <select id="memberTest">
-        select count(*)
-        from test
+    <!-- MEMBER_ID로 멤버 찾기 -->
+    <select id="findMemberById" parameterType="String" resultType="memberDTO">
+        SELECT
+        no ,
+        id ,
+        name ,
+        pw ,
+        member_role ,
+        FROM member
+        WHERE id = #{memberId}
     </select>
+    <!-- email 로 멤버 찾기 -->
+    <select id="findMemberByEmail" parameterType="String" resultType="memberDTO">
+        SELECT
+        no ,
+        id ,
+        name ,
+        pw ,
+        member_role ,
+        FROM member
+        WHERE member_email = #{email}
+    </select>
+    <insert id="registMember" parameterType="memberDTO"><!--ROLE_ADMIN 은 테스트삼아 update -->
+        INSERT INTO member (
+        id,
+        pw,
+        name
+        )
+        VALUES (
+        #{id},
+        #{pw},
+        #{name}
+        )
+    </insert>
 </mapper>
