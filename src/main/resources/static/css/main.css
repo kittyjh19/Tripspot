@@ -1,0 +1,115 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+header {
+    background-color: #256137;
+    color: #FDFDFC;
+    display: flex;
+    justify-content: space-between; /* 좌우로 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    padding: 20px;
+}
+
+header h1 {
+    font-family: 'Comfortaa', sans-serif;
+    text-align: left;
+    margin: 0;
+    font-size: 50px;
+}
+
+main {
+    flex-grow: 1; /* 본문이 확장 되도록 설정 */
+}
+
+.search-area {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.search-area input {
+    padding: 20px;
+    width: 1000px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* 위쪽 여백 추가 */
+}
+
+.register-button {
+    padding: 13px 25px; /* 상하, 좌우 여백 조정 */
+    margin-top: 50px;
+    font-size: 17px; /* 글자 크기 조정 */
+    font-family: 'Nanum Gothic', sans-serif;
+    background-color: #FDFDFC; /* 버튼 배경색 */
+    color: #256137; /* 글자색 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    cursor: pointer; /* 커서 모양 변경 */
+    transition: background-color 0.3s; /* 호버 시 부드러운 전환 효과 */
+}
+
+.login-button {
+    padding: 13px 30px;
+    margin-top: 50px;
+    font-size: 17px;
+    font-family: 'Nanum Gothic', sans-serif;
+    background-color: #FDFDFC;
+    color: #256137;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.board-button {
+    padding: 15px 40px;
+    font-size: 25px;
+    font-family: 'Nanum Gothic', sans-serif;
+    background-color: #256137;
+    color: #FDFDFC;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.register-button:hover {
+    background-color: #C9E2D0;
+}
+
+.login-button:hover {
+    background-color: #C9E2D0;
+}
+
+.board-button:hover {
+    background-color: #83B692;
+}
+
+.map-image {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+footer {
+    text-align: center;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 20px;
+    padding: 3px;
+    background-color: #E7EBE8;
+    color: #256137;
+    margin-top: auto; /* footer가 항상 하단에 있도록 설정 */
+}

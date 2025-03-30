@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header>
+    <h1>| TRIPSPOT</h1>
+    <div style="text-align: right">
+        <th:block sec:authorize="isAuthenticated()">
+            <h3 style="text-align: right"><span sec:authentication="principal.username"></span>님 환영합니다</h3>
+            <h3 style="text-align: right">권한: <span sec:authentication="principal.authorities"></span></h3>
+            <button onclick="location.href='/member/logout'">로그아웃</button>
+        </th:block>
+        <th:block sec:authorize="isAnonymous()">
+            <button class="register-button" onclick="location.href='/member/register'">회원가입</button>
+            <button class="login-button" onclick="location.href='/member/login'">로그인</button>
+        </th:block>
+    </div>
+</header>
+</body>
+</html>
