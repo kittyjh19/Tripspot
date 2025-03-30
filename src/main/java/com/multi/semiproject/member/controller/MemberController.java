@@ -1,37 +1,31 @@
 package com.multi.semiproject.member.controller;
 
+import com.multi.semiproject.member.model.dto.MemberDTO;
 import com.multi.semiproject.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/member")
+@RequiredArgsConstructor
+@Slf4j
 public class MemberController {
     private final MemberService memberService;
 
-
-    //테스트용
     @GetMapping("/login")
-    public String login(){
-        return "member/login";
+    public void memberLogin(){}
+
+    @GetMapping("/regist")
+    public void memberRegist(){}
+
+    @PostMapping("/regist")
+    public String registMember(MemberDTO memberDTO){
+
+        memberService.registMember(memberDTO);
+        return "redirect:/member/login";
     }
-
-    //테스트용
-    @GetMapping("/logout")
-    public String logout(){
-        return "main/main";
-    }
-
-    //테스트용
-    @GetMapping("/test")
-    @ResponseBody
-    public String memberTest(){
-        int result = memberService.memberTest();
-        return "member 테스트 결과 = "+result;
-
-    }
-
 }
+

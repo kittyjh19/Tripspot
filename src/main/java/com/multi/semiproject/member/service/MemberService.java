@@ -1,19 +1,33 @@
 package com.multi.semiproject.member.service;
 
 import com.multi.semiproject.member.model.dao.MemberMapper;
+import com.multi.semiproject.member.model.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
-@RequiredArgsConstructor
+@Slf4j
 public class MemberService {
     private final MemberMapper memberMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
+    public MemberService(MemberMapper memberMapper, BCryptPasswordEncoder passwordEncoder) {
+        this.memberMapper = memberMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
 
-    //테스트용
-    public int memberTest() {
-        return memberMapper.memberTest();
+    @Transactional
+    public void registMember(MemberDTO memberDTO) {
+        String encodePwd = passwordEncoder.encode(memberDTO.getPw());
+        memberDTO.setPw(encodePwd);
+
+        int result = memberMapper.registMember(memberDTO);
+        if(result <= 0){
+            throw new RuntimeException("registMember failed : count = 0");
+        }
     }
 }
+
