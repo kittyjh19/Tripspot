@@ -1,11 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>TRIPSPOT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-<h1 style="text-align: center">login page</h1>
+<header>
+    <h1>| TRIPSPOT</h1>
+</header>
+
+<main>
+<h1 style="text-align: center">로그인</h1>
 
 <form style="text-align: center" action = "/member/login" method="post">
     <label>
@@ -20,6 +29,10 @@
         <input type="submit">
     </label>
 </form>
+</main>
 
+<footer>
+    <p>Team 200-OK</p>
+</footer>
 </body>
 </html>
