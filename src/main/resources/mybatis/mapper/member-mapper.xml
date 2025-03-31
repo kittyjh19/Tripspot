@@ -30,12 +30,14 @@
         INSERT INTO member (
         id,
         pw,
-        name
+        name,
+        member_email
         )
         VALUES (
         #{id},
         #{pw},
-        #{name}
+        #{name},
+        #{memberEmail}
         )
     </insert>
 </mapper>
