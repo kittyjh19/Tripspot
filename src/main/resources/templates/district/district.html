@@ -26,7 +26,7 @@
         <tbody>
         <tr th:each="travel : ${travels}">
             <td th:text="${travel.district}"></td>
-            <td th:text="${travel.title}"></td>
+            <td><a th:href="@{/district/detail/{no}(no=${travel.no})}" th:text="${travel.title}"></a></td>
             <td th:text="${travel.address}"></td>
             <td th:text="${travel.phone}"></td>
         </tr>

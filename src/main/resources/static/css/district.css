@@ -43,6 +43,12 @@ main {
     font-family: 'Nanum Gothic', sans-serif; /* Nanum Gothic 적용 */
 }
 
+/* 링크의 기본 스타일 제거 */
+.district-table a {
+    color: inherit; /* 부모 요소의 색상 상속 (기본 검은색) */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
 .district-table th,
 .district-table td {
     border: 1px solid #ddd;
