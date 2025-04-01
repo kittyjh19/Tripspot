@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${district} + ' 관광지 목록'"></title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/district.css}">
+</head>
+<body>
+
+<div th:replace="common/header.html"></div>
+
+<main>
+    <h1 th:text="${district} + ' 관광지 목록'"></h1>
+
+    <table class="district-table">
+        <thead>
+        <tr>
+            <th>권역명</th>
+            <th>관광지</th>
+            <th>주소</th>
+            <th>전화번호</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="travel : ${travels}">
+            <td th:text="${travel.district}"></td>
+            <td th:text="${travel.title}"></td>
+            <td th:text="${travel.address}"></td>
+            <td th:text="${travel.phone}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 페이지 번호 표시 -->
+    <div class="pagination">
+
+        <!-- 이전 버튼 -->
+        <a th:if="${hasPrevious}" th:href="@{/district/{district}(district=${district}, page=${currentPage - 1})}">&lt;</a>
+        <span th:unless="${hasPrevious}" class="disabled">&lt;</span>
+
+        <!-- 현재 페이지만 표시 -->
+        <a th:href="@{/district/{district}(district=${district}, page=${currentPage})}"
+           th:text="${currentPage}"
+           th:class="active"></a>
+
+        <!-- 다음 버튼 -->
+        <a th:if="${hasNext}" th:href="@{/district/{district}(district=${district}, page=${currentPage + 1})}">&gt;</a>
+        <span th:unless="${hasNext}" class="disabled">&gt;</span>
+    </div>
+
+</main>
+
+<div th:replace="common/footer.html"></div>
+</body>
+</html>
+

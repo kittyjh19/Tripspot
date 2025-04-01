@@ -1,9 +1,12 @@
 package com.multi.semiproject.district.service;
 
 import com.multi.semiproject.district.model.dao.DistrictMapper;
+import com.multi.semiproject.district.model.dto.TravelDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -11,8 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class DistrictService {
     private final DistrictMapper districtMapper;
 
-    //테스트용
-    public int districtTest() {
-        return districtMapper.districtTest();
+    public List<TravelDTO> getTravelsByDistrict(String district, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        return districtMapper.getTravelsByDistrict(district, offset, pageSize);
+    }
+
+    public int getTotalCountByDistrict(String district) {
+        return districtMapper.getTotalCountByDistrict(district);
     }
 }
+
