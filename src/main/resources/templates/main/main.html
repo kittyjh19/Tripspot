@@ -32,7 +32,7 @@
     <h1>| TRIPSPOT</h1>
     <div style="text-align: right">
         <th:block sec:authorize="isAuthenticated()">
-            <h3 style="text-align: right"><span sec:authentication="principal.username"></span>님 환영합니다</h3>
+            <h3 style="text-align: right"><span sec:authentication="principal.username"></span>님</h3>
             <h3 style="text-align: right">
                 권한:
                 <span th:if="${#authorization.expression('isAuthenticated()')}">
