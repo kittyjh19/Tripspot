@@ -51,6 +51,18 @@ public class DistrictController {
         return "district/district"; // district.html로 이동
     }
 
+    // no기준으로 상세조회
+    @GetMapping("/detail/{no}")
+    public String getTravelDetail(@PathVariable("no") int no, Model model) {
+        System.out.println("넘어온 no 값: " + no); // ✅ 로그 추가
+
+        TravelDTO travel = districtService.getTravelByNo(no);
+        System.out.println("조회된 여행 정보: " + travel);
+
+        model.addAttribute("travel", travel);
+        return "district/detail";
+    }
+
     @GetMapping("/map")
     public String goMap(){
         return "map/address";

@@ -29,6 +29,7 @@ header h1 {
 main {
     flex-grow: 1; /* 본문이 확장 되도록 설정 */
     padding-top: 100px; /* 헤더 높이 + 여백 만큼 패딩 추가 */
+    font-family: 'Nanum Gothic', sans-serif;
 }
 
 .search-area {
@@ -84,6 +85,19 @@ main {
     background-color: #256137;
     color: #FDFDFC;
     border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-success {
+    padding: 13px 30px;
+    margin-top: 50px;
+    font-size: 17px;
+    font-family: 'Nanum Gothic', sans-serif;
+    background-color: #FDFDFC;
+    color: #256137;
+    border: 1px solid #256137;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;

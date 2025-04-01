@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상세 정보</title>
+</head>
+<body>
+<h1>상세조회 페이지 입니다</h1>
+<div th:if="${travel != null}">
+    <p>No: <span th:text="${travel.no}"></span></p>
+    <p>District: <span th:text="${travel.district}"></span></p>
+    <p>Title: <span th:text="${travel.title}"></span></p>
+    <p>Description: <span th:text="${travel.description}"></span></p>
+    <p>Address: <span th:text="${travel.address}"></span></p>
+    <p>Phone: <span th:text="${travel.phone}"></span></p>
+</div>
+<div th:unless="${travel != null}">
+    <p>해당하는 정보가 없습니다.</p>
+</div>
+</body>
+</html>
