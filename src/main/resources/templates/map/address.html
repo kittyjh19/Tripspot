@@ -26,7 +26,7 @@
 </head>
 <body>
 
-<div th:insert="/common/header.html"></div>
+<div th:replace="/common/header.html"></div>
 
 <!--<p style="margin-top:-12px">-->
 <!--    <em class="link">-->
@@ -44,13 +44,10 @@
             <li id="descriptionLi"></li>
             <li id="addressLi"></li>
             <li id="telLi"></li>
-
         </ol>
-
     </div>
-
 </div>
-<img id="placeImg" style="width:800px;height:800px">
+<!--<img id="placeImg" style="width:800px;height:800px">-->
 <div id="roadview" style="width:65%;height:800px;">tt</div>
 <div th:replace="/common/footer.html"></div>
 
@@ -67,7 +64,7 @@
 //         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
 //         level: 3 // 지도의 확대 레벨
 //     };
-
+//
 // var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
 var geocoder = new kakao.maps.services.Geocoder();
@@ -204,25 +201,16 @@ function displayInfo(position){
             roadview.setPanoId(panoId, positionkakao); //panoId와 중심좌표를 통해 로드뷰 실행
         });
 
-//         var roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
-//         var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
-//         var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
-//
-//         var position = new kakao.maps.LatLng(33.450701, 126.570667);
-//
-// // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
-//         roadviewClient.getNearestPanoId(position, 50, function(panoId) {
-//             roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
-//         });
+
 
         //ol tag
-        const url = "https://maps.googleapis.com/maps/api/streetview";
-        const hSize = 400;
-        const wSize = 400;
-        const latitude = position.placeInfo.mapy;//47.5763831;//33.450705;
-        const longitude = position.placeInfo.mapx;//-122.4211769;//126.570677;
-        const key = "AIzaSyCGRT0uhnCcED7b_u6IQlX7_vmu0quyxMc";
-        const totalURL  = `${url}?size=${wSize}x${hSize}&location=${latitude},${longitude}&fov=80&pitch=0&key=${key}`; //&heading=70
+        // const url = "https://maps.googleapis.com/maps/api/streetview";
+        // const hSize = 400;
+        // const wSize = 400;
+        // const latitude = position.placeInfo.mapy;//47.5763831;//33.450705;
+        // const longitude = position.placeInfo.mapx;//-122.4211769;//126.570677;
+        // const key = "AIzaSyCGRT0uhnCcED7b_u6IQlX7_vmu0quyxMc";
+        // const totalURL  = `${url}?size=${wSize}x${hSize}&location=${latitude},${longitude}&fov=80&pitch=0&key=${key}`; //&heading=70
 
 
 
@@ -241,10 +229,10 @@ function displayInfo(position){
         addressLi.innerHTML = "address : "+position.placeInfo.addr1;
         telLi.innerHTML = "tel : "+position.placeInfo.tel;
 
-        // infoBox.appendChild(liTitle);
-        const placeImg = document.querySelector("#placeImg");
+        //infoBox.appendChild(liTitle);
+        //const placeImg = document.querySelector("#placeImg");
         // console.log(position.placeInfo.firstimage);
-        placeImg.src = totalURL;//`${position.placeInfo.firstimage}`;
+        //placeImg.src = totalURL;//`${position.placeInfo.firstimage}`;
 
 
         //console.log("getInfo() function");
