@@ -14,13 +14,10 @@ import java.util.Collection;
 @ToString(exclude = "pw")
 public class CustomUser implements UserDetails {
 
-    private String id;
-
-    private String pw;
-
-    private String memberEmail;
-
-    private Collection<? extends GrantedAuthority> authorities;
+    private final String id;
+    private final String pw;
+    private final String memberEmail;
+    private final Collection<? extends GrantedAuthority> authorities;
 
     public CustomUser(MemberDTO member, Collection<? extends GrantedAuthority> authorities){
         this.authorities =  authorities;
