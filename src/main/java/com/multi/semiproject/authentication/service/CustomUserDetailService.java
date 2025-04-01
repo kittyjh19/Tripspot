@@ -34,8 +34,14 @@ public class CustomUserDetailService implements UserDetailsService {
         if(memberDTO == null){
             throw new UsernameNotFoundException("회원정보가 존재하지 않습니다");
         }
+        // Check the raw role stored in the database
+        System.out.println("Raw role from DB: " + memberDTO.getMemberRole());
+
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(memberDTO.getMemberRole()));
+
+        System.out.println("Authorities: " + authorities);
+        //debug
 
         return new CustomUser(memberDTO, authorities);
     }
@@ -46,8 +52,6 @@ public class CustomUserDetailService implements UserDetailsService {
         List<String> memberPermitList = new ArrayList<>();
 
         adminPermitList.add("/admin/dashboard");
-
-        memberPermitList.add("/order/regist");
 
         permitListMap.put("adminPermitList", adminPermitList);
         permitListMap.put("memberPermitList", memberPermitList);
