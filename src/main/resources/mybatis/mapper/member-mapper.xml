@@ -12,6 +12,7 @@
         name ,
         pw ,
         member_role ,
+        member_email
         FROM member
         WHERE id = #{memberId}
     </select>
@@ -23,6 +24,7 @@
         name ,
         pw ,
         member_role ,
+        member_email ,
         FROM member
         WHERE member_email = #{email}
     </select>
@@ -30,12 +32,14 @@
         INSERT INTO member (
         id,
         pw,
-        name
+        name,
+        member_email
         )
         VALUES (
         #{id},
         #{pw},
-        #{name}
+        #{name},
+        #{memberEmail}
         )
     </insert>
 </mapper>

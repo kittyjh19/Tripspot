@@ -2,20 +2,16 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
+
+<head>
     <meta charset="UTF-8">
     <title>TRIPSPOT</title>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
-    <style>
-        img {
-            max-width: 100%; /* Ensure image is responsive */
-            height: auto;
-            display: block;
-            margin: 0 auto 20px; /* Center horizontally and add bottom margin */
-        }
 
-        input[type="text"], input[type="password"] {
+    <style>
+        input[type="text"], input[type="password"],input[type="email"],input[type="password"] {
 
             padding: 10px;
             font-size: 1em;
@@ -39,28 +35,29 @@
 </head>
 <body>
 <div th:replace="/common/header.html"></div>
+<div class="container">
+    <h1 style="text-align: center">회원 가입</h1>
+    <form style="text-align: center" th:action="@{/member/register}" method="post">
 
-<main>
-    <img src="/img/loginimage.jpg">
-<h1 style="text-align: center">로그인</h1>
-
-<form style="text-align: center" action = "/member/login" method="post">
-    <label>
-        아이디
-        <input type = "text" name="username">
-    </label><br>
-    <label>
-        비밀번호
-        <input type="password" name="password">
-    </label><br>
-<!--    <label>-->
-<!--        로그인-->
-<!--&lt;!&ndash;        <input type="submit">&ndash;&gt;-->
-<!--    </label>-->
-    <button type="submit" class="btn btn-success">로그인</button>
-</form>
-</main>
-
+        <div class="form-group">
+            <label for="id">아이디:</label>
+            <input type="text" class="form-control" id="id" name="id" required>
+        </div>
+        <div class="form-group">
+            <label for="pw">비밀번호:</label>
+            <input type="password" class="form-control" id="pw" name="pw" required>
+        </div>
+        <div class="form-group">
+            <label for="email">이메일:</label>
+            <input type="email" class="form-control" id="email" name="memberEmail" required>
+        </div>
+        <div class="form-group">
+            <label for="name">이름:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <button type="submit" class="btn btn-success">회원 가입</button>
+    </form>
+</div>
 <div th:replace="/common/footer.html"></div>
 </body>
 </html>

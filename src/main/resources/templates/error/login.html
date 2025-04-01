@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1 align="center">로그인 실패!</h1>
+</body>
+</html><!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
@@ -35,6 +44,12 @@
             cursor: pointer;                /* Pointer cursor on hover */
             transition: all 0.3s ease;       /* Smooth transition for effects */
         }
+        .error-message {
+            color: red;                      /* 빨간색 글씨 */
+            font-size: 1.2em;                /* 글자 크기 */
+            margin-top: 10px;               /* 위쪽 여백 */
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -42,23 +57,27 @@
 
 <main>
     <img src="/img/loginimage.jpg">
-<h1 style="text-align: center">로그인</h1>
+    <h1 style="text-align: center">로그인</h1>
 
-<form style="text-align: center" action = "/member/login" method="post">
-    <label>
-        아이디
-        <input type = "text" name="username">
-    </label><br>
-    <label>
-        비밀번호
-        <input type="password" name="password">
-    </label><br>
-<!--    <label>-->
-<!--        로그인-->
-<!--&lt;!&ndash;        <input type="submit">&ndash;&gt;-->
-<!--    </label>-->
-    <button type="submit" class="btn btn-success">로그인</button>
-</form>
+    <form style="text-align: center" action = "/member/login" method="post">
+        <label>
+            아이디
+            <input type = "text" name="username">
+        </label><br>
+        <label>
+            비밀번호
+            <input type="password" name="password">
+        </label><br>
+        <!--    <label>-->
+        <!--        로그인-->
+        <!--&lt;!&ndash;        <input type="submit">&ndash;&gt;-->
+        <!--    </label>-->
+        <button type="submit" class="btn btn-success">로그인</button>
+
+    </form>
+    <div class="error-message">
+        회원 정보를 다시 확인해주세요!
+    </div>
 </main>
 
 <div th:replace="/common/footer.html"></div>

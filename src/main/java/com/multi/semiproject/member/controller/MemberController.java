@@ -18,10 +18,10 @@ public class MemberController {
     @GetMapping("/login")
     public void memberLogin(){}
 
-    @GetMapping("/regist")
+    @GetMapping("/register")
     public void memberRegist(){}
 
-    @PostMapping("/regist")
+    @PostMapping("/register")
     public String registMember(MemberDTO memberDTO){
 
         memberService.registMember(memberDTO);
