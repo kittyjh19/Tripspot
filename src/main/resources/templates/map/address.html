@@ -172,6 +172,16 @@ getCoords(address, title);
 function displayInfo(position){
     return ()=>{
         //ol tag
+        const url = "https://maps.googleapis.com/maps/api/streetview";
+        const hSize = 400;
+        const wSize = 400;
+        const latitude = position.placeInfo.mapy;//47.5763831;//33.450705;
+        const longitude = position.placeInfo.mapx;//-122.4211769;//126.570677;
+        const key = "AIzaSyCGRT0uhnCcED7b_u6IQlX7_vmu0quyxMc";
+        const totalURL  = `${url}?size=${wSize}x${hSize}&location=${latitude},${longitude}&fov=80&heading=70&pitch=0&key=${key}`;
+
+
+
         const infoBox = document.querySelector("#infoBox");
 
         //district, title, description, tel li tage
@@ -190,7 +200,7 @@ function displayInfo(position){
         // infoBox.appendChild(liTitle);
         const placeImg = document.querySelector("#placeImg");
         // console.log(position.placeInfo.firstimage);
-        placeImg.src = `${position.placeInfo.firstimage}`;
+        placeImg.src = totalURL;//`${position.placeInfo.firstimage}`;
 
 
         //console.log("getInfo() function");
