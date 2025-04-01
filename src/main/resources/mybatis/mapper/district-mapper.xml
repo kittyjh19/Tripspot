@@ -5,7 +5,7 @@
 <mapper namespace="com.multi.semiproject.district.model.dao.DistrictMapper">
 
     <select id="getTravelsByDistrict" resultType="com.multi.semiproject.district.model.dto.TravelDTO">
-        SELECT district, title, address, phone
+        SELECT no, district, title, address, phone
         FROM travel
         WHERE district = CONVERT(#{district} USING utf8mb4)
         ORDER BY title ASC
@@ -16,5 +16,11 @@
         SELECT COUNT(*)
         FROM travel
         WHERE district = CONVERT(#{district} USING utf8mb4)
+    </select>
+
+    <select id="getTravelByNo" parameterType="int" resultType="com.multi.semiproject.district.model.dto.TravelDTO">
+        SELECT no, district, title, description, address, phone
+        FROM travel
+        WHERE no = #{no}
     </select>
 </mapper>
