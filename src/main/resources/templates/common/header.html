@@ -45,6 +45,10 @@
                 <button onclick="location.href='/member/logout'" style="margin-top: 5px;">로그아웃</button>
             </th:block>
         </div>
+        <th:block sec:authorize="isAnonymous()">
+            <button class="register-button" onclick="location.href='/member/register'">회원가입</button>
+            <button class="login-button" onclick="location.href='/member/login'">로그인</button>
+        </th:block>
     </div>
 </header>
 </body>
