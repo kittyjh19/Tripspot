@@ -1,21 +1,18 @@
-
-DROP DATABASE IF EXISTS travel_db;
-CREATE DATABASE travel_db;
 USE travel_db;
 
 drop table if exists board, member;
 
 CREATE TABLE member (
-                        no BIGINT AUTO_INCREMENT PRIMARY KEY,
-                        id VARCHAR(255) UNIQUE NOT NULL,
-                        pw VARCHAR(255),
-                        name VARCHAR(20) NOT NULL,
-                        member_role VARCHAR(100) DEFAULT 'ROLE_USER' NOT NULL,
-                        member_email VARCHAR(100) UNIQUE NOT NULL,
-                        created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-                        created_person VARCHAR(255),
-                        modified_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                        modified_person VARCHAR(255)
+            no BIGINT AUTO_INCREMENT PRIMARY KEY,
+            id VARCHAR(255) UNIQUE NOT NULL,
+            pw VARCHAR(255),
+            name VARCHAR(20) NOT NULL,
+            member_role VARCHAR(100) DEFAULT 'ROLE_USER' NOT NULL,
+            member_email VARCHAR(100) UNIQUE NOT NULL,
+            created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+            created_person VARCHAR(255),
+            modified_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            modified_person VARCHAR(255)
 
 );
 
