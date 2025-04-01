@@ -22,4 +22,9 @@ public class DistrictController {
         return "district 테스트 결과 = "+result;
 
     }
+
+    @GetMapping("/map")
+    public String goMap(){
+        return "map/address";
+    }
 }

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="utf-8">
+    <title>주소로 장소 표시하기</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+
+<div th:replace="/common/header.html"></div>
+
+<!--<p style="margin-top:-12px">-->
+<!--    <em class="link">-->
+<!--        <a href="javascript:void(0);" onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">-->
+<!--            혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요.-->
+<!--        </a>-->
+<!--    </em>-->
+<!--</p>-->
+<div id="map" style="width:100%;height:350px;"></div>
+
+<div th:replace="/common/footer.html"></div>
+
+
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a2034c020ffbbfca31d28cb1f5e6913&libraries=services"></script>
+<script defer>
+
+
+
+// 주소-좌표 변환 객체를 생성합니다
+// var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+//     mapOption = {
+//         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+//         level: 3 // 지도의 확대 레벨
+//     };
+
+// var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+var geocoder = new kakao.maps.services.Geocoder();
+
+//const coordsValue = new Object();
+
+let address = "서울특별시 중구 명동8길 7";//'경기도 고양시 덕양구 행주외동 140-8'
+async function getCoords(address){
+    const result =  await new Promise((resolve,reject)=> {
+        //console.log(geocoder.addressSearch.constructor.name); // 출력 결과: function
+        geocoder.addressSearch(address, function (result, status) { //geocoder.addressSearch가 비동기 작업
+
+            // 정상적으로 검색이 완료됐으면
+            if (status === kakao.maps.services.Status.OK) {
+                //console.log(kakao.maps.LatLng.constructor.name) 출력 결과: function
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                resolve(coords)
+            } else {
+                reject(new Error("해당 지역의 주소가 없습니다."))
+            }
+        })
+    })
+
+
+        // let coords = new Array();
+        // geocoder.addressSearch(address, function(result, status) { //geocoder.addressSearch가 비동기 작업
+        //
+        //     // 정상적으로 검색이 완료됐으면
+        //     if (status === kakao.maps.services.Status.OK) {
+        //
+        //         //console.log(kakao.maps.LatLng.constructor.name) 출력 결과: function
+        //         coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        //         console.log(coords);
+        //         //coords
+        //
+        //     }
+        // })
+        // console.log(coords);
+        // //let result = coords.pop()
+        // let result = coords.map(coords=>coords.pop());
+        // console.log(result);
+    //console.log(result);
+
+    //alert(result.La);
+    //coordsValue.latitude = result.La;
+    //coordsValue.longitude = result.Ma;
+    //return coordsValue;
+    //console.log(coordsValue);
+    //console.log(coordsValue.latitude);
+
+
+    //한국 관광 공사 api request parameter 설정
+    let url = "https://apis.data.go.kr/B551011/KorService1/locationBasedList1"
+    let mobileOs = "WIN";
+    let mobileApp = "multiTravel";
+    let maxRadius = 200000;
+    let serviceKey = "RmKrTcSJ10sVBsGmRKLZY7YOE6et9HZZfyjlPtb2UHJLouTmCT07mQCa5Oh3ACVoR97nJRoljda8uIRtmGaWvA%3D%3D"
+    //get method 사용
+    const res = await fetch(`${url}?MobileOS=${mobileOs}&MobileApp=${mobileApp}&mapX=${result.La}&mapY=${result.Ma}&radius=${maxRadius}&serviceKey=${serviceKey}&_type=json`)
+
+
+    if(!res.ok){
+        return new Error("해당 지역 주변에 관관 정보가 없습니다.");
+    }
+    const data = await res.json();
+    const items = data.response.body.items.item;
+    console.log(items);
+
+    //상세 보기 페이지에서 본 지역의 주소와 좌표를 객체에 담아 배열에 저장
+    let positions = new Array();
+    positions.push({})
+    positions[0].title = address;
+    positions[0].latlng = new kakao.maps.LatLng(result.Ma,result.La)
+
+
+    items.forEach(item =>{
+        let tmp ={
+            title : item.title,
+            latlng : new kakao.maps.LatLng(item.mapy, item.mapx)
+        }
+        positions.push(tmp);
+    });
+
+    console.log(positions);
+
+
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(positions[0].latlng.Ma, positions[0].latlng.La), // 지도의 중심좌표
+            level: 2 // 지도의 확대 레벨
+        };
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+    for (var i = 0; i < positions.length; i ++) {
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            map: map, // 마커를 표시할 지도
+            position: positions[i].latlng // 마커의 위치
+        });
+
+        // 마커에 표시할 인포윈도우를 생성합니다
+        var infowindow = new kakao.maps.InfoWindow({
+            content: "<div>"+positions[i].title +"</div>"// 인포윈도우에 표시할 내용
+        });
+
+        // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+        // 이벤트 리스너로는 클로저를 만들어 등록합니다
+        // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+        kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+        //kakao.maps.event.addListener(maker,"click",getInfo())
+        kakao.maps.event.addListener(marker,"click",getInfo(positions[i]));
+        kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+    }
+    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
+}
+getCoords(address);
+function getInfo(position){
+    return ()=>{
+        console.log("getInfo() function");
+        console.log(position);
+        alert("test");
+    }
+
+}
+
+function makeOverListener(map, marker, infowindow) {
+
+    return function() {
+
+        infowindow.open(map, marker);
+    };
+}
+
+// 인포윈도우를 닫는 클로저를 만드는 함수입니다
+function makeOutListener(infowindow) {
+    return function() {
+        infowindow.close();
+    };
+}
+</script>
+
+</body>
+</html>
+
+<!-- 참고 -->
+<!-- https://apis.map.kakao.com/web/sample/addr2coord/ -->
