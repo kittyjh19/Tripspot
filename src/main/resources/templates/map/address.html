@@ -7,10 +7,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
+    <style>
+        #mapInfoBox{
+            display: flex;
+            margin-top: 200px;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        #info{
+            margin-top: 50px;
+
+            height:350px;
+            width:15%;
+        }
+
+
+    </style>
 </head>
 <body>
 
-<div th:replace="/common/header.html"></div>
+<div th:insert="/common/header.html"></div>
 
 <!--<p style="margin-top:-12px">-->
 <!--    <em class="link">-->
@@ -19,16 +35,23 @@
 <!--        </a>-->
 <!--    </em>-->
 <!--</p>-->
-<div id="map" style="width:100%;height:350px;"></div>
-<ol id="infoBox" >
-    <li id="districtLi"></li>
-    <li id="titleLi"></li>
-    <li id="descriptionLi"></li>
-    <li id="addressLi"></li>
-    <li id="telLi"></li>
+<div id="mapInfoBox">
+    <div id="map" style="width:65%;height:350px;"></div>
+    <div id="info">
+        <ol id="infoBox" >
+            <li id="districtLi"></li>
+            <li id="titleLi"></li>
+            <li id="descriptionLi"></li>
+            <li id="addressLi"></li>
+            <li id="telLi"></li>
 
-</ol>
-<img id="placeImg" style="width:350px;height:350px">
+        </ol>
+
+    </div>
+
+</div>
+<img id="placeImg" style="width:800px;height:800px">
+<div id="roadview" style="width:65%;height:800px;">tt</div>
 <div th:replace="/common/footer.html"></div>
 
 
@@ -48,6 +71,9 @@
 // var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
 var geocoder = new kakao.maps.services.Geocoder();
+var roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
+var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
+var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
 
 //const coordsValue = new Object();
 
@@ -171,6 +197,24 @@ async function getCoords(address, title){
 getCoords(address, title);
 function displayInfo(position){
     return ()=>{
+        var positionkakao = new kakao.maps.LatLng(position.placeInfo.mapy, position.placeInfo.mapx);
+
+// 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
+        roadviewClient.getNearestPanoId(positionkakao, 50, function(panoId) {
+            roadview.setPanoId(panoId, positionkakao); //panoId와 중심좌표를 통해 로드뷰 실행
+        });
+
+//         var roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
+//         var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
+//         var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+//
+//         var position = new kakao.maps.LatLng(33.450701, 126.570667);
+//
+// // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
+//         roadviewClient.getNearestPanoId(position, 50, function(panoId) {
+//             roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
+//         });
+
         //ol tag
         const url = "https://maps.googleapis.com/maps/api/streetview";
         const hSize = 400;
@@ -178,7 +222,7 @@ function displayInfo(position){
         const latitude = position.placeInfo.mapy;//47.5763831;//33.450705;
         const longitude = position.placeInfo.mapx;//-122.4211769;//126.570677;
         const key = "AIzaSyCGRT0uhnCcED7b_u6IQlX7_vmu0quyxMc";
-        const totalURL  = `${url}?size=${wSize}x${hSize}&location=${latitude},${longitude}&fov=80&heading=70&pitch=0&key=${key}`;
+        const totalURL  = `${url}?size=${wSize}x${hSize}&location=${latitude},${longitude}&fov=80&pitch=0&key=${key}`; //&heading=70
 
 
 
@@ -205,7 +249,7 @@ function displayInfo(position){
 
         //console.log("getInfo() function");
         console.log(position);
-        alert("test");
+        //alert("test");
     }
 
 }
