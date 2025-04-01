@@ -14,4 +14,10 @@ public class ErrorController {
     public String error(){
         return "error/error";
     }
+
+    @RequestMapping("/denied")
+    public void accessDenied(){}
+
+    @PostMapping("/login")
+    public void loginFailed(){}
 }
