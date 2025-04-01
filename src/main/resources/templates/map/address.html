@@ -20,7 +20,15 @@
 <!--    </em>-->
 <!--</p>-->
 <div id="map" style="width:100%;height:350px;"></div>
+<ol id="infoBox" >
+    <li id="districtLi"></li>
+    <li id="titleLi"></li>
+    <li id="descriptionLi"></li>
+    <li id="addressLi"></li>
+    <li id="telLi"></li>
 
+</ol>
+<img id="placeImg" style="width:350px;height:350px">
 <div th:replace="/common/footer.html"></div>
 
 
@@ -43,8 +51,9 @@ var geocoder = new kakao.maps.services.Geocoder();
 
 //const coordsValue = new Object();
 
-let address = "서울특별시 중구 명동8길 7";//'경기도 고양시 덕양구 행주외동 140-8'
-async function getCoords(address){
+let address = "인천광역시 중구 제물량로232번안길 27";//'경기도 고양시 덕양구 행주외동 140-8'
+let title = "인천 개항장역사문화공간";
+async function getCoords(address, title){
     const result =  await new Promise((resolve,reject)=> {
         //console.log(geocoder.addressSearch.constructor.name); // 출력 결과: function
         geocoder.addressSearch(address, function (result, status) { //geocoder.addressSearch가 비동기 작업
@@ -88,6 +97,7 @@ async function getCoords(address){
     //console.log(coordsValue.latitude);
 
 
+
     //한국 관광 공사 api request parameter 설정
     let url = "https://apis.data.go.kr/B551011/KorService1/locationBasedList1"
     let mobileOs = "WIN";
@@ -103,29 +113,35 @@ async function getCoords(address){
     }
     const data = await res.json();
     const items = data.response.body.items.item;
-    console.log(items);
+    //console.log(items);
 
     //상세 보기 페이지에서 본 지역의 주소와 좌표를 객체에 담아 배열에 저장
     let positions = new Array();
-    positions.push({})
-    positions[0].title = address;
-    positions[0].latlng = new kakao.maps.LatLng(result.Ma,result.La)
+    //console.log(result);
+    positions.push({
+        placeInfo:{
+            addr1 : address,
+            mapx: result.La,
+            mapy: result.Ma,
+            title: title,
+            tel: "0000"
+        }
+    })
+    displayInfo(positions[0])();
+    //positions[0].title = address;
+    //positions[0].latlng = new kakao.maps.LatLng(result.Ma,result.La)
 
 
     items.forEach(item =>{
-        let tmp ={
-            title : item.title,
-            latlng : new kakao.maps.LatLng(item.mapy, item.mapx)
-        }
-        positions.push(tmp);
+        positions.push({ placeInfo : item});
     });
 
-    console.log(positions);
+    //console.log(positions);
 
 
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
-            center: new kakao.maps.LatLng(positions[0].latlng.Ma, positions[0].latlng.La), // 지도의 중심좌표
+            center: new kakao.maps.LatLng(positions[0].placeInfo.mapy, positions[0].placeInfo.mapx), // 지도의 중심좌표
             level: 2 // 지도의 확대 레벨
         };
     var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
@@ -134,12 +150,12 @@ async function getCoords(address){
         // 마커를 생성합니다
         var marker = new kakao.maps.Marker({
             map: map, // 마커를 표시할 지도
-            position: positions[i].latlng // 마커의 위치
+            position: new kakao.maps.LatLng(positions[i].placeInfo.mapy,positions[i].placeInfo.mapx) // 마커의 위치
         });
 
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
-            content: "<div>"+positions[i].title +"</div>"// 인포윈도우에 표시할 내용
+            content: "<div>"+positions[i].placeInfo.title +"</div>"// 인포윈도우에 표시할 내용
         });
 
         // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
@@ -147,15 +163,37 @@ async function getCoords(address){
         // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
         kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
         //kakao.maps.event.addListener(maker,"click",getInfo())
-        kakao.maps.event.addListener(marker,"click",getInfo(positions[i]));
+        kakao.maps.event.addListener(marker,"click",displayInfo(positions[i]));
         kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
     }
     // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
 }
-getCoords(address);
-function getInfo(position){
+getCoords(address, title);
+function displayInfo(position){
     return ()=>{
-        console.log("getInfo() function");
+        //ol tag
+        const infoBox = document.querySelector("#infoBox");
+
+        //district, title, description, tel li tage
+        const districtLi = document.querySelector("#districtLi");
+        const titleLi = document.querySelector("#titleLi");
+        const descriptionLi = document.querySelector("#descriptionLi");
+        const addressLi = document.querySelector("#addressLi");
+        const telLi = document.querySelector("#telLi");
+
+        districtLi.innerHTML = "district : "+position.placeInfo.areacode;
+        titleLi.innerHTML = "title : "+position.placeInfo.title;
+        descriptionLi.innerHTML = "description : "+position.placeInfo.description;
+        addressLi.innerHTML = "address : "+position.placeInfo.addr1;
+        telLi.innerHTML = "tel : "+position.placeInfo.tel;
+
+        // infoBox.appendChild(liTitle);
+        const placeImg = document.querySelector("#placeImg");
+        // console.log(position.placeInfo.firstimage);
+        placeImg.src = `${position.placeInfo.firstimage}`;
+
+
+        //console.log("getInfo() function");
         console.log(position);
         alert("test");
     }
