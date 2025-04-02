@@ -49,6 +49,7 @@ public class SecurityConfig {
         List<String> memberList = permitMap.get("memberPermitList");
 
         http.csrf(AbstractHttpConfigurer :: disable)
+                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers(adminList.toArray(new String[adminList.size()])).hasRole("ADMIN")
                         .requestMatchers(memberList.toArray(new String[memberList.size()])).hasAnyRole("ADMIN", "USER")

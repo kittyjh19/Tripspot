@@ -5,6 +5,7 @@ import com.multi.semiproject.district.model.dto.TravelDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DistrictMapper {
 
@@ -19,4 +20,6 @@ public interface DistrictMapper {
     TravelDTO getTravelByNo(@Param("no") int no);
 
     int insertTravelInfo(TravelDTO travelDTO);
+
+    Optional<Integer> selectByTitle(TravelDTO travelDTO);
 }

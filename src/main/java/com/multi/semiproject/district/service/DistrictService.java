@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -28,7 +29,14 @@ public class DistrictService {
     }
 
     public int insertTravelInfo(TravelDTO travelDTO) {
-        return districtMapper.insertTravelInfo(travelDTO);
+        //중복 검사를 한 번 합니다.
+        Optional<Integer> dupleResult = districtMapper.selectByTitle(travelDTO);
+        if(dupleResult.isPresent())
+            return dupleResult.get(); //해당 title의 no를 반환
+        districtMapper.insertTravelInfo(travelDTO);
+        return travelDTO.getNo(); // insert된 후 해당 지역의 no 반환
+
+
     }
 }
 
