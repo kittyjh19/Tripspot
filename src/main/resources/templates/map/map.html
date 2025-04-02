@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="utf-8">
+    <title>주소로 장소 표시하기</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <script type="text/javascript" th:src="'//dapi.kakao.com/v2/maps/sdk.js?appkey='+${@environment.getProperty('multi-semi.kakao-api')}+'&libraries=services'"></script>
+    <script src="/js/map.js"></script>
+
+    <!--    <link rel="preload">-->
+    <style>
+        #mapInfoBox{
+            display: flex;
+            margin-top: 200px;
+            /*justify-content: center;*/
+            /*align-items: flex-end;*/
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div th:replace="/common/header.html"></div>
+
+<!--<p style="margin-top:-12px">-->
+<!--    <em class="link">-->
+<!--        <a href="javascript:void(0);" onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">-->
+<!--            혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요.-->
+<!--        </a>-->
+<!--    </em>-->
+<!--</p>-->
+<div id="mapInfoBox">
+    <div id="map" style="width:50%;height:50vh"></div>
+    <div id="roadview" style="width:50%;height:50vh">tt</div>
+</div>
+<!--<img id="placeImg" style="width:800px;height:800px">-->
+
+<div id="info">
+    <ol id="infoBox" >
+        <li id="districtLi"></li>
+        <li id="titleLi"></li>
+        <li id="descriptionLi"></li>
+        <li id="addressLi"></li>
+        <li id="telLi"></li>
+        <li id="homeplage"></li>
+    </ol>
+</div>
+
+<div th:replace="/common/footer.html"></div>
+
+<script th:inline="javascript">
+    var geocoder = new kakao.maps.services.Geocoder();
+
+    var roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
+    var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
+    var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+
+    let positions = new Array();
+
+
+    document.addEventListener("DOMContentLoaded",async ()=>{
+
+        let address = '인천광역시 중구 제물량로232번안길 27';//'경기도 고양시 덕양구 행주외동 140-8', "인천광역시 중구 제물량로232번안길 27"
+        let title = "인천 개항장역사문화공간";
+        positions.push({placeInfo:{
+                addr1: address,
+                description:"",
+                title: title,
+                tel: "",
+            }});
+
+        await getCoords(address); // position[0]: 상세보기 페이지에서 가져온 정보, 주소로 위도와 경도를 얻음
+
+        displayInfo(positions[0])();
+
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            mapOption = {
+                center: new kakao.maps.LatLng(positions[0].placeInfo.mapy, positions[0].placeInfo.mapx), // 지도의 중심좌표
+                level: 2 // 지도의 확대 레벨
+            };
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+
+
+        //한국 관광 공사 api request parameter 설정
+        let url = "https://apis.data.go.kr/B551011/KorService1/locationBasedList1"
+        let mobileOs = "WIN";
+        let mobileApp = "multiTravel";
+        let maxRadius = 200000;
+        //console.log(positions[0])
+        const res = await fetch(`${url}?MobileOS=${mobileOs}&MobileApp=${mobileApp}&mapX=${positions[0].placeInfo.mapx}&mapY=${positions[0].placeInfo.mapy}&radius=${maxRadius}&serviceKey=${[[${@environment.getProperty('multi-semi.tour-api')}]]}&_type=json`)
+
+        if(!res.ok){
+            return new Error("해당 지역 주변에 관관 정보가 없습니다.");
+        }
+
+        const items = (await res.json()).response.body.items.item;//
+        //console.log(items);
+        let count = 1;
+        items.forEach(item =>{
+            positions.push({ placeInfo : {
+                    addr1 : item.addr1,
+                    areacode : item.areacode,
+                    contentid : item.contentid,
+                    mapx : item.mapx,
+                    mapy : item.mapy,
+                    title : item.title
+                }});
+            setDetails(positions[count++])
+        });
+        for (var i = 1; i < positions.length; i ++) {
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                map: map, // 마커를 표시할 지도
+
+                position: new kakao.maps.LatLng(positions[i].placeInfo.mapy,positions[i].placeInfo.mapx), // 마커의 위치
+                title: positions[i].placeInfo.title
+            });
+
+            // 마커에 표시할 인포윈도우를 생성합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: "<div>"+positions[i].placeInfo.title +"</div>"// 인포윈도우에 표시할 내용
+            });
+
+            // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+            // 이벤트 리스너로는 클로저를 만들어 등록합니다
+            // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+            kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+            kakao.maps.event.addListener(marker,"click",displayInfo(positions[i]));
+            kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+        }
+
+
+        //setDetails(positions);
+
+        //console.log(positions);
+
+
+
+
+
+    })
+
+    async function setDetails(position){
+        // 공통정보조회 api
+        //한국 관광 공사 api request parameter 설정
+        // https://apis.data.go.kr/B551011/KorService1/detailCommon1?MobileOS=WIN&MobileApp=multitravel&contentId=126508&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&overviewYN=Y&serviceKey=
+        let urlDetail = "https://apis.data.go.kr/B551011/KorService1/detailCommon1"
+        let mobileOsDetail = "WIN";
+        let mobileAppDetail = "multiTravel";
+        let defaultYNDetail = "Y"; // &defaultYN=${defaultYNDetail}, 제공되는 정보: booktour, createdtime, homepage, modifiedtime
+        //let firstImageYNDetail = "Y"; // firstImageYN=${firstImageYNDetail}&, 이미지를 제공 안하는 경우가 있기 때문에 로드뷰로 대체
+        //let areacodeDetail = "Y"; // &areacodeYN=${areacodeDetail}, 이미 받음
+        //let catcodeYNDetail = "Y"; // &catcodeYN=${catcodeYNDetail}, 이미 받음
+        //let addinfoYNDetail = "Y"; // &addrinfoYN=${addinfoYNDetail}, 이미 받음
+        let overviewYNDetail = "Y";
+
+        let contentIdDetail = position.placeInfo.contentid;
+        let resDetail = await fetch(`${urlDetail}?MobileOS=${mobileOsDetail}&MobileApp=${mobileAppDetail}&contentId=${contentIdDetail}&defaultYN=${defaultYNDetail}&overviewYN=${overviewYNDetail}&serviceKey=${[[${@environment.getProperty('multi-semi.tour-api')}]]}&_type=json`);
+        if(!resDetail){
+            throw new Error("http request error");
+        }
+        let dataDetail = await resDetail.json();
+        let itemsDetail = dataDetail.response.body.items.item
+        position.placeInfo.homepage = itemsDetail[0].homepage;
+        position.placeInfo.description = itemsDetail[0].overview;
+        //position.placeInfo.test = "33";
+        //console.log(itemsDetail);
+
+    }
+
+
+
+
+</script>
+</body>
+</html>
+
+<!-- 참고 -->
+<!-- https://apis.map.kakao.com/web/sample/addr2coord/ -->
