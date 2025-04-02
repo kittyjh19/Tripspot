@@ -10,6 +10,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
@@ -32,5 +35,15 @@ public class MemberController {
         memberService.registMember(memberDTO);
         return "redirect:/member/login";
     }
+
+    @GetMapping("/check-id/{id}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Boolean>> checkId(@PathVariable("id") String id) {
+        boolean exists = memberService.checkIdExists(id);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("exists", exists);
+        return ResponseEntity.ok(response);
+    }
+
 }
 
