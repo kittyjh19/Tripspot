@@ -58,7 +58,14 @@
 <main>
     <div class="search-area">
         <input type="text" id="search-input" placeholder="검색할 지역을 입력하세요." />
-        <button class="board-button" onclick="location.href='/board'" style="margin-left: 10px;">게시판</button>
+        <!-- Conditional button: Only enable the button if the user is logged in -->
+        <button class="board-button"
+                th:classappend="${#authorization.expression('isAuthenticated()') ? '' : ' disabled'}"
+                th:onclick="|location.href='/board'|"
+                style="margin-left: 10px;"
+                th:disabled="${!#authorization.expression('isAuthenticated()')}">
+            게시판
+        </button>
     </div>
     <img src="img/mapimage.jpg" alt="지도" class="map-image" usemap="#region-map" style="max-width: 100%; height: auto; max-height: 600px;">
     <map name="region-map">

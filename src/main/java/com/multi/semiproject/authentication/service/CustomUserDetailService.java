@@ -51,8 +51,6 @@ public class CustomUserDetailService implements UserDetailsService {
         List<String> adminPermitList = new ArrayList<>();
         List<String> memberPermitList = new ArrayList<>();
 
-        adminPermitList.add("/admin/dashboard");
-
         permitListMap.put("adminPermitList", adminPermitList);
         permitListMap.put("memberPermitList", memberPermitList);
 
