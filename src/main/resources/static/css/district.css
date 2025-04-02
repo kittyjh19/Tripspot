@@ -16,6 +16,8 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+    height: 100px; /* 고정된 높이 설정 */
+    overflow: hidden;
 }
 
 header h1 {
