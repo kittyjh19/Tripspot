@@ -1,20 +1,20 @@
 package com.multi.semiproject.board.service;
 
 import com.multi.semiproject.board.model.dao.BoardMapper;
+import com.multi.semiproject.board.model.dto.BoardDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
-@RequiredArgsConstructor
-public class BoardService {
-
-    private final BoardMapper boardMapper;
-
-
-    //테스트용
-    public int boardTest() {
-        return boardMapper.boardTest();
-    }
+public interface BoardService {
+    List<BoardDTO> getAllBoards();
+    BoardDTO getBoardById(int id);
+    void insertBoard(BoardDTO board);
+    void updateBoard(BoardDTO board);
+    void deleteBoard(int id);
 }
+
