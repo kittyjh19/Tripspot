@@ -63,7 +63,7 @@ public class DistrictController {
 
     @GetMapping("/map")
     public String goMap(){
-        return "map/address_test";
+        return "map/map";
     }
 }
 

@@ -140,3 +140,4 @@ function displayInfo(position){
     }
 
 }
+
