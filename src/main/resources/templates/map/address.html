@@ -7,6 +7,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
+    <script type="text/javascript" th:src="'//dapi.kakao.com/v2/maps/sdk.js?appkey='+${@environment.getProperty('multi-semi.kakao-api')}+'&libraries=services'"></script>
+
+<!--    <link rel="preload">-->
+    <style>
+        #mapInfoBox{
+            display: flex;
+            margin-top: 200px;
+            /*justify-content: center;*/
+            /*align-items: flex-end;*/
+        }
+
+
+    </style>
 </head>
 <body>
 
@@ -19,39 +32,41 @@
 <!--        </a>-->
 <!--    </em>-->
 <!--</p>-->
-<div id="map" style="width:100%;height:350px;"></div>
-<ol id="infoBox" >
-    <li id="districtLi"></li>
-    <li id="titleLi"></li>
-    <li id="descriptionLi"></li>
-    <li id="addressLi"></li>
-    <li id="telLi"></li>
+<div id="mapInfoBox">
+    <div id="map" style="width:50%;height:50vh"></div>
+    <div id="roadview" style="width:50%;height:50vh">tt</div>
+</div>
+<!--<img id="placeImg" style="width:800px;height:800px">-->
 
-</ol>
-<img id="placeImg" style="width:350px;height:350px">
+<div id="info">
+    <ol id="infoBox" >
+        <li id="districtLi"></li>
+        <li id="titleLi"></li>
+        <li id="descriptionLi"></li>
+        <li id="addressLi"></li>
+        <li id="telLi"></li>
+        <li id="homeplage"></li>
+    </ol>
+</div>
+
 <div th:replace="/common/footer.html"></div>
 
-
-
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a2034c020ffbbfca31d28cb1f5e6913&libraries=services"></script>
-<script defer>
-
-
-
-// 주소-좌표 변환 객체를 생성합니다
-// var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-//     mapOption = {
-//         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-//         level: 3 // 지도의 확대 레벨
-//     };
-
-// var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+<script th:inline="javascript">
+// console.log("환경변수");
+//
+// const kakao_key = [[${@environment.getProperty('multi-semi.kakao-api')}]];
+// console.log(kakao_key)
+// const tour_key = [[${@environment.getProperty('multi-semi.tour-api')}]];
+// console.log(tour_key);
 
 var geocoder = new kakao.maps.services.Geocoder();
+var roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
+var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
+var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
 
 //const coordsValue = new Object();
 
-let address = "인천광역시 중구 제물량로232번안길 27";//'경기도 고양시 덕양구 행주외동 140-8'
+let address = '인천광역시 중구 제물량로232번안길 27';//'경기도 고양시 덕양구 행주외동 140-8', "인천광역시 중구 제물량로232번안길 27"
 let title = "인천 개항장역사문화공간";
 async function getCoords(address, title){
     const result =  await new Promise((resolve,reject)=> {
@@ -69,43 +84,16 @@ async function getCoords(address, title){
         })
     })
 
-
-        // let coords = new Array();
-        // geocoder.addressSearch(address, function(result, status) { //geocoder.addressSearch가 비동기 작업
-        //
-        //     // 정상적으로 검색이 완료됐으면
-        //     if (status === kakao.maps.services.Status.OK) {
-        //
-        //         //console.log(kakao.maps.LatLng.constructor.name) 출력 결과: function
-        //         coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-        //         console.log(coords);
-        //         //coords
-        //
-        //     }
-        // })
-        // console.log(coords);
-        // //let result = coords.pop()
-        // let result = coords.map(coords=>coords.pop());
-        // console.log(result);
-    //console.log(result);
-
-    //alert(result.La);
-    //coordsValue.latitude = result.La;
-    //coordsValue.longitude = result.Ma;
-    //return coordsValue;
-    //console.log(coordsValue);
-    //console.log(coordsValue.latitude);
-
-
-
     //한국 관광 공사 api request parameter 설정
     let url = "https://apis.data.go.kr/B551011/KorService1/locationBasedList1"
     let mobileOs = "WIN";
     let mobileApp = "multiTravel";
     let maxRadius = 200000;
-    let serviceKey = "RmKrTcSJ10sVBsGmRKLZY7YOE6et9HZZfyjlPtb2UHJLouTmCT07mQCa5Oh3ACVoR97nJRoljda8uIRtmGaWvA%3D%3D"
+    // let serviceKey = "RmKrTcSJ10sVBsGmRKLZY7YOE6et9HZZfyjlPtb2UHJLouTmCT07mQCa5Oh3ACVoR97nJRoljda8uIRtmGaWvA%3D%3D"
     //get method 사용
-    const res = await fetch(`${url}?MobileOS=${mobileOs}&MobileApp=${mobileApp}&mapX=${result.La}&mapY=${result.Ma}&radius=${maxRadius}&serviceKey=${serviceKey}&_type=json`)
+    // const res = await fetch(`${url}?MobileOS=${mobileOs}&MobileApp=${mobileApp}&mapX=${result.La}&mapY=${result.Ma}&radius=${maxRadius}`+"&serviceKey="+[[${@environment.getProperty('multi-semi.tour-api')}]]+"&_type=json")
+
+    const res = await fetch(`${url}?MobileOS=${mobileOs}&MobileApp=${mobileApp}&mapX=${result.La}&mapY=${result.Ma}&radius=${maxRadius}&serviceKey=${[[${@environment.getProperty('multi-semi.tour-api')}]]}&_type=json`)
 
 
     if(!res.ok){
@@ -113,6 +101,7 @@ async function getCoords(address, title){
     }
     const data = await res.json();
     const items = data.response.body.items.item;
+    console.log(items);
     //console.log(items);
 
     //상세 보기 페이지에서 본 지역의 주소와 좌표를 객체에 담아 배열에 저장
@@ -120,7 +109,9 @@ async function getCoords(address, title){
     //console.log(result);
     positions.push({
         placeInfo:{
+            district:3,
             addr1 : address,
+            description:"test",
             mapx: result.La,
             mapy: result.Ma,
             title: title,
@@ -131,13 +122,48 @@ async function getCoords(address, title){
     //positions[0].title = address;
     //positions[0].latlng = new kakao.maps.LatLng(result.Ma,result.La)
 
-
     items.forEach(item =>{
+
+
         positions.push({ placeInfo : item});
     });
 
-    //console.log(positions);
+    console.log(positions);
 
+
+
+    // 공통정보조회 api
+    //한국 관광 공사 api request parameter 설정
+    // https://apis.data.go.kr/B551011/KorService1/detailCommon1?MobileOS=WIN&MobileApp=multitravel&contentId=126508&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&overviewYN=Y&serviceKey=RmKrTcSJ10sVBsGmRKLZY7YOE6et9HZZfyjlPtb2UHJLouTmCT07mQCa5Oh3ACVoR97nJRoljda8uIRtmGaWvA%3D%3D
+    let urlDetail = "https://apis.data.go.kr/B551011/KorService1/detailCommon1"
+    let mobileOsDetail = "WIN";
+    let mobileAppDetail = "multiTravel";
+    let defaultYNDetail = "Y"; // &defaultYN=${defaultYNDetail}, 제공되는 정보: booktour, createdtime, homepage, modifiedtime
+    //let firstImageYNDetail = "Y"; // firstImageYN=${firstImageYNDetail}&, 이미지를 제공 안하는 경우가 있기 때문에 로드뷰로 대체
+    //let areacodeDetail = "Y"; // &areacodeYN=${areacodeDetail}, 이미 받음
+    //let catcodeYNDetail = "Y"; // &catcodeYN=${catcodeYNDetail}, 이미 받음
+    //let addinfoYNDetail = "Y"; // &addrinfoYN=${addinfoYNDetail}, 이미 받음
+    let overviewYNDetail = "Y";
+    //let maxRadiusDetail = 200000;
+    let serviceKeyDetail = "RmKrTcSJ10sVBsGmRKLZY7YOE6et9HZZfyjlPtb2UHJLouTmCT07mQCa5Oh3ACVoR97nJRoljda8uIRtmGaWvA%3D%3D";
+
+
+    for(let i=1;i<=items.length;i++){
+        let contentIdDetail = positions[i].placeInfo.contentid;
+        let totlaURL = `${urlDetail}?MobileOS=${mobileOsDetail}&MobileApp=${mobileAppDetail}&contentId=${contentIdDetail}&defaultYN=${defaultYNDetail}&overviewYN=${overviewYNDetail}&serviceKey=${[[${@environment.getProperty('multi-semi.tour-api')}]]}&_type=json`;
+        let resDetail = await fetch(totlaURL);
+        if(!resDetail){
+            throw new Error("http request error");
+        }
+        let dataDetail = await resDetail.json();
+        let itemsDetail = dataDetail.response.body.items.item
+        positions[i].placeInfo.homepage = itemsDetail[0].homepage;
+        positions[i].placeInfo.description = itemsDetail[0].overview;
+        positions[i].placeInfo.test = "33";
+        console.log(itemsDetail);
+
+    }
+    console.log(positions);
 
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
@@ -171,7 +197,24 @@ async function getCoords(address, title){
 getCoords(address, title);
 function displayInfo(position){
     return ()=>{
+        var positionkakao = new kakao.maps.LatLng(position.placeInfo.mapy, position.placeInfo.mapx);
+
+// 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
+        roadviewClient.getNearestPanoId(positionkakao, 50, function(panoId) {
+            roadview.setPanoId(panoId, positionkakao); //panoId와 중심좌표를 통해 로드뷰 실행
+        });
+
         //ol tag
+        // const url = "https://maps.googleapis.com/maps/api/streetview";
+        // const hSize = 400;
+        // const wSize = 400;
+        // const latitude = position.placeInfo.mapy;//47.5763831;//33.450705;
+        // const longitude = position.placeInfo.mapx;//-122.4211769;//126.570677;
+        // const key = "AIzaSyCGRT0uhnCcED7b_u6IQlX7_vmu0quyxMc";
+        // const totalURL  = `${url}?size=${wSize}x${hSize}&location=${latitude},${longitude}&fov=80&pitch=0&key=${key}`; //&heading=70
+
+
+
         const infoBox = document.querySelector("#infoBox");
 
         //district, title, description, tel li tage
@@ -180,22 +223,24 @@ function displayInfo(position){
         const descriptionLi = document.querySelector("#descriptionLi");
         const addressLi = document.querySelector("#addressLi");
         const telLi = document.querySelector("#telLi");
+        const homeplageLi = document.querySelector("#homeplage");
 
         districtLi.innerHTML = "district : "+position.placeInfo.areacode;
         titleLi.innerHTML = "title : "+position.placeInfo.title;
         descriptionLi.innerHTML = "description : "+position.placeInfo.description;
         addressLi.innerHTML = "address : "+position.placeInfo.addr1;
         telLi.innerHTML = "tel : "+position.placeInfo.tel;
+        homeplageLi.innerHTML = position.placeInfo.homepage;
 
-        // infoBox.appendChild(liTitle);
-        const placeImg = document.querySelector("#placeImg");
+        //infoBox.appendChild(liTitle);
+        //const placeImg = document.querySelector("#placeImg");
         // console.log(position.placeInfo.firstimage);
-        placeImg.src = `${position.placeInfo.firstimage}`;
+        //placeImg.src = totalURL;//`${position.placeInfo.firstimage}`;
 
 
         //console.log("getInfo() function");
         console.log(position);
-        alert("test");
+        //alert("test");
     }
 
 }
@@ -214,6 +259,16 @@ function makeOutListener(infowindow) {
         infowindow.close();
     };
 }
+
+function getDistrictName(areacode){
+    let areaName;
+    switch(areacode){
+        case 1:
+            areaName = "서울";
+
+    }
+}
+
 </script>
 
 </body>
