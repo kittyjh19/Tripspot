@@ -71,7 +71,7 @@ async function getCoords(address) {
 
                 resolve(coords)
             } else {
-                reject(new Error("해당 지역의 주소가 없습니다."))
+                reject(new Error("해당 지역의 주소를 제공하지 않습니다."))
             }
         })
     })
@@ -109,8 +109,9 @@ function getHomepage(homepage){
     }
 }
 
-function displayInfo(position){
+function displayInfo(position, savePosition){
     return ()=>{
+        savePosition.saveObject = position;
         var positionkakao = new kakao.maps.LatLng(position.placeInfo.mapy, position.placeInfo.mapx);
 
         // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
@@ -140,4 +141,8 @@ function displayInfo(position){
     }
 
 }
+
+
+
+
 

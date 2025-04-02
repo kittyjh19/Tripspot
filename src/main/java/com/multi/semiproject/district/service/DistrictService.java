@@ -26,5 +26,9 @@ public class DistrictService {
     public TravelDTO getTravelByNo(int no) {
         return districtMapper.getTravelByNo(no);
     }
+
+    public int insertTravelInfo(TravelDTO travelDTO) {
+        return districtMapper.insertTravelInfo(travelDTO);
+    }
 }
 

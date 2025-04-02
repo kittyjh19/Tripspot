@@ -23,4 +23,8 @@
         FROM travel
         WHERE no = #{no}
     </select>
+
+    <insert id="insertTravelInfo" parameterType="com.multi.semiproject.district.model.dto.TravelDTO">
+        insert into travel (district, title, description, address, phone) values(#{district}, #{title},#{description},#{address}, #{phone})
+    </insert>
 </mapper>
