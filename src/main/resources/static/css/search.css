@@ -1,0 +1,167 @@
+/* 전체 레이아웃 설정 */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Nanum Gothic', sans-serif;
+    background-color: white;
+}
+
+/* 헤더 스타일 */
+header {
+    background-color: #256137;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    height: 100px; /* 고정된 높이 설정 */
+    overflow: hidden;
+}
+
+header h1 {
+    font-family: 'Comfortaa', sans-serif; /* 헤더 글꼴 유지 */
+    text-align: left;
+    margin: 0;
+    font-size: 50px;
+}
+
+/* 본문 */
+main {
+    flex-grow: 1;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Nanum Gothic', sans-serif; /* Nanum Gothic 적용 */
+}
+
+/* 테이블 스타일 */
+.search-table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Nanum Gothic', sans-serif; /* Nanum Gothic 적용 */
+}
+
+/* 링크의 기본 스타일 제거 */
+.search-table a {
+    color: inherit; /* 부모 요소의 색상 상속 (기본 검은색) */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.search-table th,
+.search-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    font-family: 'Nanum Gothic', sans-serif; /* Nanum Gothic 적용 */
+}
+
+.search-table th {
+    background-color: #e4e8e5;
+    color: #333232;
+    font-size: 18px;
+    font-family: 'Nanum Gothic', sans-serif; /* Nanum Gothic 적용 */
+}
+
+.search-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+    font-family: 'Nanum Gothic', sans-serif; /* Nanum Gothic 적용 */
+}
+
+.search-table tr:hover {
+    background-color: #C9E2D0;
+    font-family: 'Nanum Gothic', sans-serif; /* Nanum Gothic 적용 */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* 위쪽 여백 추가 */
+    font-family: 'Nanum Gothic', sans-serif; /* Nanum Gothic 적용 */
+}
+
+.register-button {
+    padding: 13px 25px; /* 상하, 좌우 여백 조정 */
+    margin-top: 50px;
+    font-size: 17px; /* 글자 크기 조정 */
+    font-family: 'Nanum Gothic', sans-serif;
+    background-color: #FDFDFC; /* 버튼 배경색 */
+    color: #256137; /* 글자색 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    cursor: pointer; /* 커서 모양 변경 */
+    transition: background-color 0.3s; /* 호버 시 부드러운 전환 효과 */
+}
+
+.login-button {
+    padding: 13px 30px;
+    margin-top: 50px;
+    font-size: 17px;
+    font-family: 'Nanum Gothic', sans-serif;
+    background-color: #FDFDFC;
+    color: #256137;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+.register-button:hover {
+    background-color: #C9E2D0;
+}
+
+.login-button:hover {
+    background-color: #C9E2D0;
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    cursor: pointer;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+.pagination a.active {
+    background-color: #256137;
+    color: white;
+    border-color: #256137;
+}
+
+.pagination .disabled {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    color: #888; /* 비활성화된 색상 */
+    pointer-events: none; /* 클릭 이벤트 막음 */
+}
+
+
+footer {
+    text-align: center;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 18px;
+    padding: 10px;
+    background-color: #E7EBE8;
+    color: #256137;
+    margin-top: auto;
+}
