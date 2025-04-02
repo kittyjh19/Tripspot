@@ -115,7 +115,7 @@ function displayInfo(position, savePosition){
         var positionkakao = new kakao.maps.LatLng(position.placeInfo.mapy, position.placeInfo.mapx);
 
         // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
-        roadviewClient.getNearestPanoId(positionkakao, 50, function(panoId) {
+        roadviewClient.getNearestPanoId(positionkakao, 500, function(panoId) {
             roadview.setPanoId(panoId, positionkakao); //panoId와 중심좌표를 통해 로드뷰 실행
         });
 
