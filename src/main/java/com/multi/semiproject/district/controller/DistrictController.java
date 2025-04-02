@@ -1,6 +1,6 @@
 package com.multi.semiproject.district.controller;
 
-import com.multi.semiproject.common.ResponseDTO;
+
 import com.multi.semiproject.district.model.dto.TravelDTO;
 import com.multi.semiproject.district.service.DistrictService;
 import lombok.RequiredArgsConstructor;
@@ -81,7 +81,7 @@ public class DistrictController {
 
     @PostMapping(value = "/regist", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<ResponseDTO> registDistrict(@RequestBody TravelDTO travelDTO){
+    public ResponseEntity<Object> registDistrict(@RequestBody TravelDTO travelDTO){
         int result = districtService.insertTravelInfo(travelDTO);
         if(result>0){
 
