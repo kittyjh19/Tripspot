@@ -24,7 +24,13 @@
         WHERE no = #{no}
     </select>
 
-    <insert id="insertTravelInfo" parameterType="com.multi.semiproject.district.model.dto.TravelDTO">
+    <insert id="insertTravelInfo" parameterType="com.multi.semiproject.district.model.dto.TravelDTO" useGeneratedKeys="true" keyProperty="no">
         insert into travel (district, title, description, address, phone) values(#{district}, #{title},#{description},#{address}, #{phone})
     </insert>
+
+    <select id="selectByTitle" parameterType="com.multi.semiproject.district.model.dto.TravelDTO">
+        select no
+        from travel
+        where title=#{title}
+    </select>
 </mapper>

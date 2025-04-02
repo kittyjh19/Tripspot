@@ -1,12 +1,17 @@
 package com.multi.semiproject.district.controller;
 
+import com.multi.semiproject.common.ResponseDTO;
 import com.multi.semiproject.district.model.dto.TravelDTO;
 import com.multi.semiproject.district.service.DistrictService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -62,22 +67,31 @@ public class DistrictController {
     }
 
     @GetMapping("/map")
-    public String goMap(){
+    public String goMap(@RequestParam int no, Model model){
+        TravelDTO travel = districtService.getTravelByNo(no);
+        model.addAttribute("travel", travel);
         return "map/map";
     }
 
-    @GetMapping("/regist")
-    public String test(){
+    @GetMapping("/duplicate")
+    public String duplicateCheck(@RequestParam String title){
         System.out.println("DistrictController.test");
         return null;
     }
 
-    @PostMapping("/regist")
-    public String registDistrict(@RequestBody TravelDTO travelDTO){
+    @PostMapping(value = "/regist", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<ResponseDTO> registDistrict(@RequestBody TravelDTO travelDTO){
         int result = districtService.insertTravelInfo(travelDTO);
-        System.out.println(travelDTO);
-        System.out.println("DistrictController.registDistrict");
-        return null;
-    }
+        if(result>0){
+
+            return ResponseEntity.created(URI.create("/district/detail/"+travelDTO.getNo())).build();
+        }else{ //이미 저장된 지역도 없고, insert된 지역도 없는 경우
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Location", "/district/"+travelDTO.getDistrict());
+            return ResponseEntity.status(303).headers(headers).build();
+        }
+
+     }
 }
 
