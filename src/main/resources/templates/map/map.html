@@ -49,7 +49,7 @@
         <li id="homeplage"></li>
     </ol>
 </div>
-
+<div style="text-align: right" id="save" onclick="save()">관광 정보 저장</div>
 <div th:replace="/common/footer.html"></div>
 
 <script th:inline="javascript">
@@ -60,7 +60,9 @@
     var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
 
     let positions = new Array();
-
+    let savePosition = {
+        saveObject :"none"
+    };
 
     document.addEventListener("DOMContentLoaded",async ()=>{
 
@@ -75,7 +77,7 @@
 
         await getCoords(address); // position[0]: 상세보기 페이지에서 가져온 정보, 주소로 위도와 경도를 얻음
 
-        displayInfo(positions[0])();
+        displayInfo(positions[0],savePosition)();
 
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
@@ -107,15 +109,15 @@
                     contentid : item.contentid,
                     mapx : item.mapx,
                     mapy : item.mapy,
-                    title : item.title
+                    title : item.title,
+                    tel : item.tel
                 }});
             setDetails(positions[count++])
-        });
+        })
         for (var i = 1; i < positions.length; i ++) {
             // 마커를 생성합니다
             var marker = new kakao.maps.Marker({
                 map: map, // 마커를 표시할 지도
-
                 position: new kakao.maps.LatLng(positions[i].placeInfo.mapy,positions[i].placeInfo.mapx), // 마커의 위치
                 title: positions[i].placeInfo.title
             });
@@ -129,19 +131,12 @@
             // 이벤트 리스너로는 클로저를 만들어 등록합니다
             // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
             kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-            kakao.maps.event.addListener(marker,"click",displayInfo(positions[i]));
+            kakao.maps.event.addListener(marker,"click",displayInfo(positions[i], savePosition));
             kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
         }
-
-
         //setDetails(positions);
 
         //console.log(positions);
-
-
-
-
-
     })
 
     async function setDetails(position){
@@ -169,8 +164,54 @@
         position.placeInfo.description = itemsDetail[0].overview;
         //position.placeInfo.test = "33";
         //console.log(itemsDetail);
+        //console.log(position);
+    }
+
+
+    async function save(){
+        //alert("test");
+        //console.log(savePosition.saveObject);
+        alert("save()");
+
+        const district = getDistrictName(savePosition.saveObject.placeInfo.areacode).includes("않습니다") ? null : getDistrictName(savePosition.saveObject.placeInfo.areacode);
+        const title = savePosition.saveObject.placeInfo.title.includes("않습니다") ? null : savePosition.saveObject.placeInfo.title;
+        const description= getDescription(savePosition.saveObject.placeInfo.description).includes("않습니다") ? null : getDescription(savePosition.saveObject.placeInfo.description);
+        const address = getAddress(savePosition.saveObject.placeInfo.addr1).includes("않습니다") ? null : getAddress(savePosition.saveObject.placeInfo.addr1);
+        const phone = getTel(savePosition.saveObject.placeInfo.tel).includes("않습니다") ? null : getTel(savePosition.saveObject.placeInfo.tel);
+
+
+        const data ={
+            district :district,
+            title : title,
+            description:description,
+            address:address,
+            phone: phone
+        }
+
+        const url = `/district/regist`;
+
+        const result = await fetch(url,{
+            method : "post",
+            body: JSON.stringify(data),
+            headers :{
+                'Content-Type':'application/json'
+            }
+        })
+        if(!result.ok){
+            throw new Error("http error");
+            alert("error 발생")
+        }
+        else{
+            alert("성공");
+
+        }
+
+
+
+        console.log(data);
 
     }
+
 
 
 

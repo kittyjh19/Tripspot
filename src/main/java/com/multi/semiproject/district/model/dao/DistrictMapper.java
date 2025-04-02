@@ -17,4 +17,6 @@ public interface DistrictMapper {
     );
 
     TravelDTO getTravelByNo(@Param("no") int no);
+
+    int insertTravelInfo(TravelDTO travelDTO);
 }

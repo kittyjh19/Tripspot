@@ -65,5 +65,19 @@ public class DistrictController {
     public String goMap(){
         return "map/map";
     }
+
+    @GetMapping("/regist")
+    public String test(){
+        System.out.println("DistrictController.test");
+        return null;
+    }
+
+    @PostMapping("/regist")
+    public String registDistrict(@RequestBody TravelDTO travelDTO){
+        int result = districtService.insertTravelInfo(travelDTO);
+        System.out.println(travelDTO);
+        System.out.println("DistrictController.registDistrict");
+        return null;
+    }
 }
 
