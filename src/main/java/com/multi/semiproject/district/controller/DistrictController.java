@@ -5,14 +5,13 @@ import com.multi.semiproject.district.service.DistrictService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,44 +20,43 @@ public class DistrictController {
 
     private final DistrictService districtService;
 
-    @GetMapping("/{district}")
-    public String getTravelsByDistrict(
+    // JSON과 HTML을 분리하여 API 설계
+
+    // HTML 반환
+    @GetMapping(value = "/{district}", produces = "text/html")
+    public String showDistrictPage(@PathVariable("district") String district, Model model) { // Model 객체를 사용하여 district 값을 View에 전달
+        model.addAttribute("district", district);
+        return "district/district";  // district.html 반환
+    }
+
+    // JSON 데이터 반환 (produces = "application/json" 사용)
+    @GetMapping(value = "/{district}", produces = "application/json")
+    @ResponseBody // @ResponseBody를 사용하여 데이터를 JSON 형식으로 변환
+    public Map<String, Object> getTravelsByDistrict(
             @PathVariable("district") String district,
             @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize, Model model) {
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
         district = URLDecoder.decode(district, StandardCharsets.UTF_8);
 
         List<TravelDTO> travels = districtService.getTravelsByDistrict(district, page, pageSize);
         int total = districtService.getTotalCountByDistrict(district);
-
         int totalPages = (int) Math.ceil((double) total / pageSize);
 
+        Map<String, Object> response = new HashMap<>();
+        response.put("district", district);
+        response.put("travels", travels);
+        response.put("total", total);
+        response.put("currentPage", page);
+        response.put("totalPages", totalPages);
 
-        // 이전/다음 버튼 활성화 여부만 계산
-        boolean hasPrevious = page > 1;
-        boolean hasNext = page < totalPages;
-
-        model.addAttribute("district", district);
-        model.addAttribute("travels", travels);
-        model.addAttribute("total", total);
-
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("hasPrevious", hasPrevious);
-        model.addAttribute("hasNext", hasNext);
-
-        return "district/district"; // district.html로 이동
+        return response; // JSON 데이터 반환
     }
 
-    // no기준으로 상세조회
+    // no 기준으로 상세조회
     @GetMapping("/detail/{no}")
     public String getTravelDetail(@PathVariable("no") int no, Model model) {
-        System.out.println("넘어온 no 값: " + no); // ✅ 로그 추가
-
         TravelDTO travel = districtService.getTravelByNo(no);
-        System.out.println("조회된 여행 정보: " + travel);
-
         model.addAttribute("travel", travel);
         return "district/detail";
     }
