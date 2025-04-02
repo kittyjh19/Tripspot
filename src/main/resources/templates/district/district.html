@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${district} + ' 관광지 목록'"></title>
+    <title id="pageTitle">관광지 목록</title>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/district.css}">
+    <link rel="stylesheet" type="text/css" href="/css/district.css">
+    <script src="/js/district.js" defer></script>
 </head>
 <body>
 
-<div th:replace="common/header.html"></div>
+<div th:replace="/common/header.html"></div>
 
 <main>
-    <h1 th:text="${district} + ' 관광지 목록'"></h1>
+    <h1 id="districtTitle"></h1>
+    <input type="hidden" id="districtName" value="">
 
     <table class="district-table">
         <thead>
@@ -23,36 +25,23 @@
             <th>전화번호</th>
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="travel : ${travels}">
-            <td th:text="${travel.district}"></td>
-            <td><a th:href="@{/district/detail/{no}(no=${travel.no})}" th:text="${travel.title}"></a></td>
-            <td th:text="${travel.address}"></td>
-            <td th:text="${travel.phone}"></td>
-        </tr>
-        </tbody>
+        <tbody></tbody>
     </table>
 
-    <!-- 페이지 번호 표시 -->
-    <div class="pagination">
-
-        <!-- 이전 버튼 -->
-        <a th:if="${hasPrevious}" th:href="@{/district/{district}(district=${district}, page=${currentPage - 1})}">&lt;</a>
-        <span th:unless="${hasPrevious}" class="disabled">&lt;</span>
-
-        <!-- 현재 페이지만 표시 -->
-        <a th:href="@{/district/{district}(district=${district}, page=${currentPage})}"
-           th:text="${currentPage}"
-           th:class="active"></a>
-
-        <!-- 다음 버튼 -->
-        <a th:if="${hasNext}" th:href="@{/district/{district}(district=${district}, page=${currentPage + 1})}">&gt;</a>
-        <span th:unless="${hasNext}" class="disabled">&gt;</span>
-    </div>
-
+    <nav class="pagination-container">
+        <div class="pagination"></div>
+    </nav>
 </main>
 
-<div th:replace="common/footer.html"></div>
+<div th:replace="/common/footer.html"></div>
+
+<!-- JavaScript에서 제목을 변경하면 로딩 중 제목이 깜빡이는 현상(FOUT) 발생 가능 -> HTML 로드 후 즉시 title을 설정하여 초기 깜빡임 방지 -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const districtName = document.getElementById("districtName").value;
+        document.getElementById("pageTitle").textContent = `${districtName} 관광지 목록`;
+    });
+</script>
+
 </body>
 </html>
-
