@@ -1,9 +1,9 @@
 body {
+    padding-top: 100px;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    font-family: 'Nanum Gothic', sans-serif;
 }
 
 header {
@@ -30,9 +30,21 @@ header h1 {
 }
 
 main {
-    flex-grow: 1; /* 본문이 확장 되도록 설정 */
-    padding-top: 100px; /* 헤더 높이 + 여백 만큼 패딩 추가 */
+    flex-grow: 1;
+    padding-top: 200px; /* This should be greater than or equal to the header's height */
     font-family: 'Nanum Gothic', sans-serif;
+    min-height: 100vh; /* Ensure content stretches if necessary */
+}
+
+img {
+    max-width: 50%;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px; /* Center horizontally and add bottom margin */
+}
+
+.container {
+    padding-top: 150px; /* Push the container's content down below the fixed header */
 }
 
 .search-area {
@@ -127,11 +139,35 @@ main {
     pointer-events: auto;
 }
 
-button.disabled {
-    background-color: #ddd;  /* Light gray background */
-    color: #aaa;             /* Gray text */
-    cursor: not-allowed;     /* Change the cursor to indicate the button is disabled */
-    pointer-events: none;     /* Prevent clicks */
+/* 아이디 입력란과 아이디 중복 체크 버튼을 수평으로 배치 */
+.id-container {
+    display: flex;
+    align-items: center; /* 수직 가운데 정렬 */
+    gap: 10px; /* 입력란과 버튼 사이 간격 */
+    margin-left: 50px; /* 왼쪽에 여백을 추가하여 오른쪽으로 밀기 */
+}
+
+.id-container input {
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 200px; /* 적당한 너비 설정 */
+}
+
+.id-check-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: #FDFDFC;
+    color: #256137;
+    border: 1px solid #256137;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.id-check-btn:hover {
+    background-color: #C9E2D0;
 }
 
 footer {

@@ -25,9 +25,15 @@ public class MemberService {
         memberDTO.setPw(encodePwd);
 
         int result = memberMapper.registMember(memberDTO);
-        if(result <= 0){
+        if (result <= 0) {
             throw new RuntimeException("registMember failed : count = 0");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public boolean checkIdExists(String id) {
+        MemberDTO memberDTO = memberMapper.findMemberById(id);
+        return memberDTO != null;  // If memberDTO is not null, the ID exists
     }
 }
 
