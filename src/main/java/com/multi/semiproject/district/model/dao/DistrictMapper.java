@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface DistrictMapper {
 
-
     int getTotalCountByDistrict(@Param("district") String district);
 
     List<TravelDTO> getTravelsByDistrict(
