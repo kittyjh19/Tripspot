@@ -16,4 +16,6 @@ public interface DistrictMapper {
             @Param("offset") int offset,
             @Param("pageSize") int pageSize
     );
+
+    TravelDTO getTravelByNo(@Param("no") int no);
 }

@@ -22,5 +22,9 @@ public class DistrictService {
     public int getTotalCountByDistrict(String district) {
         return districtMapper.getTotalCountByDistrict(district);
     }
+
+    public TravelDTO getTravelByNo(int no) {
+        return districtMapper.getTravelByNo(no);
+    }
 }
 
