@@ -24,6 +24,9 @@ mybatis:
     #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # SQL ?? ??? ?? ??
   type-aliases-package: ${mybatis_type-aliases-package}
 
+multi-semi:
+  kakao-api: ${SERVICE_KEY_KAKAO}
+  tour-api: ${SERVICE_KEY_TOUR}
 
 ---
 #???
