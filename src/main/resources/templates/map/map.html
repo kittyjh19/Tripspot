@@ -71,7 +71,7 @@
 </head>
 <body>
 
-<div th:replace="/common/header.html"></div>
+<div th:replace="~{/common/header.html}"></div>
 
 <!--<p style="margin-top:-12px">-->
 <!--    <em class="link">-->
@@ -84,7 +84,6 @@
 <div id="mapsBox">
     <div id="map" style="width:50%;height:45vh"></div>
     <div id="roadview" style="width:50%;height:45vh"></div>
-
 </div>
 <p id="title"></p>
 <span type="button" id="saveInfo" style="display: inline" onclick="saveInfo()">관광 정보 저장</span>
@@ -99,7 +98,7 @@
 <!--<img id="placeImg" style="width:800px;height:800px">-->
 <!--<h2><span th:text="${travel.title}"></span></h2>-->
 
-<div th:replace="/common/footer.html"></div>
+<div th:replace="~{/common/footer.html}"></div>
 
 <script th:inline="javascript">
     var geocoder = new kakao.maps.services.Geocoder();
@@ -123,7 +122,7 @@
 
             }});
 
-        const coords = await getCoords(places[0].info.address); // position[0]: 상세보기 페이지에서 가져온 정보, 주소로 위도와 경도를 얻음
+        const coords = await getCoords(places[0].info.address); // places[0]: 상세보기 페이지에서 가져온 정보, 주소로 위도와 경도를 얻음
 
         places[0].info.homepage = getHomepage("");
         places[0].info.mapx = coords.x;
@@ -145,7 +144,7 @@
         let mobileOs = "WIN";
         let mobileApp = "multiTravel";
         let maxRadius = 200000;
-        //console.log(positions[0])
+
         const res = await fetch(`${url}?MobileOS=${mobileOs}&MobileApp=${mobileApp}&mapX=${places[0].info.mapx}&mapY=${places[0].info.mapy}&radius=${maxRadius}&serviceKey=${[[${@environment.getProperty('multi-semi.tour-api')}]]}&_type=json`)
 
         if(!res.ok){
@@ -208,8 +207,7 @@
             urls.push(
                 `${urlDetail}?MobileOS=${mobileOsDetail}&MobileApp=${mobileAppDetail}&contentId=${place.info.contentid}&defaultYN=${defaultYNDetail}&overviewYN=${overviewYNDetail}&serviceKey=${[[${@environment.getProperty('multi-semi.tour-api')}]]}&_type=json`
             )
-            // console.log(place);
-            // console.log(index);
+
         })
         //let requests = urls.map(url=>fetch(url))
         //console.log(requests);
@@ -236,7 +234,7 @@
            places[count++].info.homepage = getHomepage(data.response.body.items.item[0].homepage);
        })
 
-        //console.log(places);
+
 
         // 공통정보조회 api
         //한국 관광 공사 api request parameter 설정
@@ -287,7 +285,6 @@
         const address = savePlace.saveObject.info.address.includes("미제공") ? "" : savePlace.saveObject.info.address;
         const phone = savePlace.saveObject.info.phone.includes("미제공") ? "" : savePlace.saveObject.info.phone;
 
-
         const data ={
             district :district,
             title : title,
@@ -295,8 +292,6 @@
             address:address,
             phone: phone
         }
-
-
 
         const res = await fetch(url,{
             method : "post",
