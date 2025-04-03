@@ -1,44 +1,60 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>게시글 작성</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}">
 </head>
 <body>
-<h2 th:text="${board != null} ? '✏️ 게시글 수정' : '✏️ 새 글 작성'"></h2>
-<!--@{/board/edit/${board.boardNo}}-->
 
-<form th:action="@{/board/edit(boardno=${board.boardNo})}" method="post">
-  <input hidden name="boardNo" th:value="${board.boardNo}">
-  <div>
-    <label>제목</label><br>
-    <input type="text" name="title" th:value="${board.title}" required style="width: 80%;">
+<div th:replace="/common/header.html"></div>
+
+
+  <div class="container">
+
+    <h2 text="'✏️'게시글 수정"></h2>
+
+    <form th:action="|@{/board/edit/}${board.boardNo}|" method="post">
+
+      <!-- 제목 입력 -->
+      <div class="form-group">
+        <label for="title">제목</label>
+        <input type="text" id="title" name="title" th:value="${board.title}" required>
+      </div>
+
+      <!-- 내용 입력 -->
+      <div class="form-group">
+        <label for="content">내용</label>
+        <textarea id="content" name="content" rows="10" required th:text="${board.content}"></textarea>
+      </div>
+
+      <!-- 공지 등록 (Admin 전용) -->
+      <th:block th:if="${isAdmin}">
+        <div>
+          <!--      공지로 등록 클릭 시 NOTICE넘어감-->
+          <!--      공지로 등록 클릭 안하면 null-->
+          <label><input type="checkbox" name="boardType" value="NOTICE"> 공지로 등록</label>
+        </div>
+      </th:block>
+
+      <th:block th:if="${!isAdmin}">
+        <div>
+          <label><input disabled type="checkbox"> 공지로 등록</label>
+          <input hidden name="boardType" value="POST">
+        </div>
+      </th:block>
+
+      <!-- 버튼 그룹 -->
+      <div class="button-group">
+        <button type="submit" class="submit-btn">작성 완료</button>
+        <a href="/board" class="btn back-btn">목록으로</a>
+      </div>
+
+    </form>
   </div>
-  <br>
-  <div>
-    <label>내용</label><br>
-    <textarea name="content" rows="10" style="width: 100%;" required
-              th:text="${board.content}"></textarea>
-  </div>
-  <br>
-  <th:block th:if="${isAdmin}">
-    <div>
-<!--      공지로 등록 클릭 시 NOTICE넘어감-->
-<!--      공지로 등록 클릭 안하면 null-->
-      <label><input type="checkbox" name="boardType" value="NOTICE"> 공지로 등록</label>
-    </div>
-  </th:block>
 
-  <th:block th:if="${!isAdmin}">
-    <div>
-      <label><input disabled type="checkbox"> 공지로 등록</label>
-      <input hidden name="boardType" value="POST">
-    </div>
-  </th:block>
-
-  <br>
-  <button type="submit">작성 완료</button>
-  <a href="/board"><button type="button">목록으로</button></a>
-</form>
+<div th:replace="/common/footer.html"></div>
 </body>
 </html>

@@ -1,0 +1,162 @@
+/* 전체 레이아웃 설정 */
+body {
+    display: flex;
+    padding-top: 10px;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Nanum Gothic', sans-serif;
+    background-color: white;
+    text-align: center;
+}
+
+header {
+    position: fixed; /* 헤더를 고정 */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    background-color: #256137;
+    color: #FDFDFC;
+    display: flex;
+    justify-content: space-between; /* 좌우로 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    padding: 20px;
+    height: 100px; /* 고정된 높이 설정 */
+    overflow: hidden;
+}
+
+header h1 {
+    font-family: 'Comfortaa', sans-serif;
+    text-align: left;
+    margin: 0;
+    font-size: 50px;
+}
+
+main {
+    flex-grow: 1;
+    padding-top: 150px; /* This should be greater than or equal to the header's height */
+    font-family: 'Nanum Gothic', sans-serif;
+    min-height: 100vh; /* Ensure content stretches if necessary */
+}
+
+/* 페이지 제목 스타일 */
+h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #256137;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* 테이블 스타일 */
+.board-table {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 테이블 헤더 스타일 */
+.board-table th {
+    background-color: #e4e8e5;
+    color: #333232;
+    font-size: 18px;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+/* 테이블 내용 스타일 */
+.board-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    font-size: 16px;
+}
+
+/* 테이블 행 스타일 */
+.board-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.board-table tr:hover {
+    background-color: #C9E2D0;
+}
+
+/* 공지사항 강조 */
+.notice-title {
+    color: red;
+    font-weight: bold;
+}
+
+/* 링크 스타일 */
+.board-table a {
+    color: #256137;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.board-table a:hover {
+    text-decoration: underline;
+}
+
+/* 버튼 컨테이너 */
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* 버튼 스타일 */
+.button-container button,
+.board-write-btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #256137;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-container button:hover,
+.board-write-btn:hover {
+    background-color: #1b4726;
+}
+
+/* 페이지네이션 */
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+}
+
+.pagination a:hover {
+    background-color: #ddd;
+}
+
+.pagination a.active {
+    background-color: #256137;
+    color: white;
+    border-color: #256137;
+}
+
+/* 푸터 스타일 */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #E7EBE8;
+    color: #256137;
+    margin-top: auto;
+}

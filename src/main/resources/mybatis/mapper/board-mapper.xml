@@ -24,14 +24,19 @@
     </insert>
 
     <select id="selectAllBoards" resultMap="boardResultMap">
-        SELECT * FROM board
-        ORDER BY board_type DESC, modified_date DESC
+        SELECT * FROM board ORDER BY board_type DESC, created_date DESC
     </select>
 
-    <select id="getAllBoardListById" resultMap="boardResultMap">
-        select * from board
-        where member_id = #{id}
-    </select>
+    <update id="increaseViewCount">
+        UPDATE board
+        SET view_count = view_count + 1
+        WHERE board_no = #{no}
+    </update>
+
+<!--    <select id="getAllBoardListById" resultMap="boardResultMap">-->
+<!--        SELECT * FROM board-->
+<!--    WHERE member_id = #{id}-->
+<!--    </select>-->
 
     <select id="selectBoardByNo" resultMap="boardResultMap">
         select * from board
@@ -52,32 +57,9 @@
         delete from board where board_no=#{no}
     </delete>
 
-    <update id="increaseViewCount">
-        UPDATE board SET view_count = view_count + 1 WHERE board_no = #{no}
-    </update>
 
 
-<!--    <select id="selectBoardById" resultMap="boardResultMap">-->
-<!--        SELECT * FROM board WHERE id = #{id}-->
-<!--    </select>-->
 
-<!--    <insert id="insertBoard">-->
-<!--        INSERT INTO board (title, content, writer, is_notice, view_count, created_at)-->
-<!--        VALUES (#{title}, #{content}, #{writer}, #{isNotice}, 0, NOW())-->
-<!--    </insert>-->
 
-<!--    <update id="updateBoard">-->
-<!--        UPDATE board-->
-<!--        SET title = #{title}, content = #{content}, is_notice = #{isNotice}-->
-<!--        WHERE id = #{id}-->
-<!--    </update>-->
-
-<!--    <delete id="deleteBoard">-->
-<!--        DELETE FROM board WHERE id = #{id}-->
-<!--    </delete>-->
-
-<!--    <update id="increaseViewCount">-->
-<!--        UPDATE board SET view_count = view_count + 1 WHERE id = #{id}-->
-<!--    </update>-->
 
 </mapper>
