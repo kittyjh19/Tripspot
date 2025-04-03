@@ -32,15 +32,29 @@
             transition: all 0.3s ease;       /* Smooth transition for effects */
         }
         .btn-success {
-            padding: 10px 20px;              /* Adds some space inside the button */
-            font-size: 16px;                 /* Set a nice font size */
-            font-family: 'Nanum Gothic', sans-serif; /* Matches your other text */
-            border: 2px solid #4CAF50;       /* Green border to match the Bootstrap class */
-            border-radius: 5px;              /* Slightly rounded corners */
-            background-color: gray;          /* White background */
-            color: #4CAF50;                  /* Green text color to match the border */
-            cursor: not-allowed;                /* Pointer cursor on hover */
-            transition: all 0.3s ease;       /* Smooth transition for effects */
+            padding: 13px 30px;
+            margin-top: 50px;
+            font-size: 17px;
+            font-family: 'Nanum Gothic', sans-serif;
+            background-color: #FDFDFC;
+            color: #256137;
+            border: 1px solid #256137;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-disable {
+            padding: 13px 30px;
+            margin-top: 50px;
+            font-size: 17px;
+            font-family: 'Nanum Gothic', sans-serif;
+            background-color: gray;
+            color: #256137;
+            border: 1px solid #256137;
+            border-radius: 5px;
+            cursor: not-allowed;
+            transition: background-color 0.3s;
         }
 
     </style>
@@ -68,7 +82,7 @@
             <label for="name">이름:</label>
             <input type="text" class="form-control" id="name" name="name" required>
         </div>
-        <button disabled type="submit" class="btn btn-success">회원가입</button>
+        <button disabled type="submit" class="btn btn-success btn-disable">회원가입</button>
     </form>
 </div>
 <div th:replace="/common/footer.html"></div>
@@ -89,6 +103,7 @@
                     alert('이미 사용 중인 아이디입니다.');
                 } else {
                     registBtn.disabled = false;
+                    registBtn.classList.remove("btn-disable");
                     alert('사용 가능한 아이디입니다.');
                 }
             })
@@ -96,6 +111,8 @@
                 console.error('Error:', error);
             });
     });
+
+
 </script>
 </body>
 </html>
