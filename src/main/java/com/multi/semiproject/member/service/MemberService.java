@@ -24,6 +24,9 @@ public class MemberService {
         String encodePwd = passwordEncoder.encode(memberDTO.getPw());
         memberDTO.setPw(encodePwd);
 
+        if(memberDTO.getId().equalsIgnoreCase("admin"))
+            memberDTO.setMemberRole("ROLE_ADMIN");
+
         int result = memberMapper.registMember(memberDTO);
         if (result <= 0) {
             throw new RuntimeException("registMember failed : count = 0");
