@@ -16,18 +16,6 @@
         FROM member
         WHERE id = #{memberId}
     </select>
-    <!-- email 로 멤버 찾기 -->
-    <select id="findMemberByEmail" parameterType="String" resultType="memberDTO">
-        SELECT
-        no ,
-        id ,
-        name ,
-        pw ,
-        member_role ,
-        member_email ,
-        FROM member
-        WHERE member_email = #{email}
-    </select>
     <insert id="registMember" parameterType="memberDTO"><!--ROLE_ADMIN 은 테스트삼아 update -->
         INSERT INTO member (
         id,
