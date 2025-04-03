@@ -18,13 +18,18 @@
     </resultMap>
 
     <select id="selectAllBoards" resultMap="boardResultMap">
-        SELECT * FROM board
-        ORDER BY board_type DESC, modified_date DESC
+        SELECT * FROM board ORDER BY board_type DESC, created_date DESC
     </select>
 
+    <update id="increaseViewCount">
+        UPDATE board
+        SET view_count = view_count + 1
+        WHERE board_no = #{no}
+    </update>
+
     <select id="getAllBoardListById" resultMap="boardResultMap">
-        select * from board
-        where member_id = #{id}
+        SELECT * FROM board
+    WHERE member_id = #{id}
     </select>
 
     <select id="selectBoardByNo" resultMap="boardResultMap">
@@ -36,6 +41,7 @@
         update board
         set board_type = #{boardType}, title = #{title}, content = #{content},
     </update>
+
 
 
 <!--    <select id="selectBoardById" resultMap="boardResultMap">-->
