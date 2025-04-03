@@ -104,10 +104,9 @@ function displayInfo(place, savePlace){
         //console.log(place);
 
         titleBox.innerHTML = place.info.title;
-        descriptionBox.innerHTML = "Description: "+place.info.description;
-        addressBox.innerHTML ="Address: "+ place.info.address;
-        districtBox.innerHTML ="Disctict: "+ place.info.district;
-        phoneBox.innerHTML = "Phone: "+place.info.phone;
+        addressBox.innerHTML = place.info.address;
+        districtBox.innerHTML = place.info.district;
+        phoneBox.innerHTML = place.info.phone;
         homepageBox.innerHTML = place.info.homepage;
 
 
