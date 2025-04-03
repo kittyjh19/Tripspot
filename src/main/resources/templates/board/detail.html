@@ -5,25 +5,26 @@
   <title>게시글 상세</title>
 </head>
 <body>
-<h2 th:text="${board.title}"></h2>
+<h2 th:text="${boardList[0].title}"></h2>
 <hr>
-<p><strong>작성자:</strong> <span th:text="${board.writer}"></span></p>
-<p><strong>작성일:</strong> <span th:text="${#temporals.format(board.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
-<p><strong>조회수:</strong> <span th:text="${board.viewCount}"></span></p>
+<p><strong>작성자:</strong> <span th:text="${boardList[0].memberId}"></span></p>
+<p><strong>작성일:</strong> <span th:text="${#temporals.format(boardList[0].createdDate, 'yyyy-MM-dd HH:mm')}"></span></p>
+<p><strong>조회수:</strong> <span th:text="${boardList[0].viewCount}"></span></p>
 <hr>
 <div>
-  <p th:text="${board.content}"></p>
+  <p th:text="${boardList[0].content}"></p>
 </div>
 <hr>
 <div>
   <a href="/board"><button>목록으로</button></a>
 
   <!-- 작성자 또는 관리자만 수정/삭제 버튼 노출 -->
-  <span th:if="${currentUser == board.writer or isAdmin}">
-        <a th:href="@{'/board/edit/' + ${board.id}}"><button>수정</button></a>
-        <form th:action="@{'/board/delete/' + ${board.id}}" method="post" style="display:inline;">
-            <button type="submit">삭제</button>
-        </form>
+  <span th:if="${currentUser == boardList[0].memberId or isAdmin}">
+
+        <a th:href="@{'/board/edit/' + ${boardList[0].boardNo}}"><button>수정</button></a>
+<!--        <form th:action="@{'/board/delete/' + ${board.id}}" method="post" style="display:inline;">-->
+<!--            <button type="submit">삭제</button>-->
+<!--        </form>-->
     </span>
 </div>
 </body>

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/board")
@@ -46,32 +47,42 @@ public class BoardController {
 //        return "redirect:/board";
 //    }
 //
-//    @GetMapping("/{id}")
-//    public String boardDetail(@PathVariable int id,
-//                              @AuthenticationPrincipal CustomUser user,
-//                              Model model) {
-//        BoardDTO board = boardService.getBoardById(id);
-//        boolean isAdmin = user.getAuthorities().stream()
-//                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+    @GetMapping("/list/user") //작성자가 작성한 모든 글 반환
+    public String allBoardListByUser(@AuthenticationPrincipal CustomUser user,
+                              Model model) throws Exception {
+
+        List<BoardDTO> boardList = boardService.getAllBoardListById(user.getId());
+        if(boardList.isEmpty())
+            throw new Exception("작성한 글이 없습니다.");
+
+        boolean isAdmin = user.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        model.addAttribute("boardList", boardList);
+        model.addAttribute("currentUser", user.getUsername());
+        model.addAttribute("isAdmin", isAdmin);
+        return "board/detail";
+    }
 //
-//        model.addAttribute("board", board);
-//        model.addAttribute("currentUser", user.getUsername());
-//        model.addAttribute("isAdmin", isAdmin);
-//        return "board/detail";
-//    }
-//
-//    @GetMapping("/edit/{id}")
-//    public String editForm(@PathVariable int id,
-//                           @AuthenticationPrincipal CustomUser user,
-//                           Model model) {
-//        BoardDTO board = boardService.getBoardById(id);
-//        if (!board.getWriter().equals(user.getUsername())) {
-//            throw new AccessDeniedException("수정 권한이 없습니다.");
-//        }
-//        model.addAttribute("board", board);
-//        model.addAttribute("actionUrl", "/board/edit/" + board.getId());
-//        return "board/form";
-//    }
+    @GetMapping("/edit/{no}") //특정 게시글 수정
+    public String editForm(@PathVariable int no,
+                           @AuthenticationPrincipal CustomUser user,
+                           Model model) {
+        BoardDTO board = boardService.selectBoardByNo(no).orElseThrow(() -> new IllegalArgumentException(no+"번호의 게시글이 없습니다."));
+
+
+        if (!board.getMemberId().equals(user.getUsername())) {
+            throw new AccessDeniedException("수정 권한이 없습니다.");
+        }
+
+        boolean isAdmin = user.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        model.addAttribute("board", board);
+        model.addAttribute("isAdmin", isAdmin);
+        //model.addAttribute("actionUrl", "/board/edit/" + board.getId());
+        return "board/form";
+    }
 //
 //    @PostMapping("/edit/{id}")
 //    public String editSubmit(@PathVariable int id,
