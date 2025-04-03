@@ -22,6 +22,17 @@
         ORDER BY board_type DESC, modified_date DESC
     </select>
 
+    <select id="getAllBoardListById" resultMap="boardResultMap">
+        select * from board
+        where member_id = #{id}
+    </select>
+
+    <select id="selectBoardByNo" resultMap="boardResultMap">
+        select * from board
+        where board_no = #{no}
+    </select>
+
+
 <!--    <select id="selectBoardById" resultMap="boardResultMap">-->
 <!--        SELECT * FROM board WHERE id = #{id}-->
 <!--    </select>-->
