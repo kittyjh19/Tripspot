@@ -6,8 +6,9 @@
 </head>
 <body>
 <h2 th:text="${board != null} ? '✏️ 게시글 수정' : '✏️ 새 글 작성'"></h2>
+<!--@{/board/edit/${board.boardNo}}-->
 
-<form th:action="@{${actionUrl}}" method="post">
+<form th:action="@{/board/edit(boardno=${board.boardNo})}" method="post">
 
   <div>
     <label>제목</label><br>
@@ -22,7 +23,16 @@
   <br>
   <th:block th:if="${isAdmin}">
     <div>
-      <label><input type="checkbox" name="isNotice" th:checked="${board.boardType}"> 공지로 등록</label>
+<!--      공지로 등록 클릭 시 NOTICE넘어감-->
+<!--      공지로 등록 클릭 안하면 null-->
+      <label><input type="checkbox" name="boardType" value="NOTICE"> 공지로 등록</label>
+    </div>
+  </th:block>
+
+  <th:block th:if="${!isAdmin}">
+    <div>
+      <label><input disabled type="checkbox"> 공지로 등록</label>
+      <input hidden name="boardType" value="POST">
     </div>
   </th:block>
 

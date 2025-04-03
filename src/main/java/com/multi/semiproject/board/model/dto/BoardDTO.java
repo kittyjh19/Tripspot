@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @ToString
 public class BoardDTO {
     private int boardNo;
+    @Value("POST")
     private String boardType;
     private String title;
     private String content;
