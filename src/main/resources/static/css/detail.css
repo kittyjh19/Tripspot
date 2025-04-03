@@ -29,7 +29,6 @@ header h1 {
     text-align: left;
     margin: 0;
     font-size: 50px;
-    color: #256137;
 }
 
 main {
@@ -37,26 +36,48 @@ main {
     padding: 40px;
     font-family: 'Nanum Gothic', sans-serif;
     min-height: 100vh;
-    background-color: #ffffff;
 }
 
-/* 게시글 상세 페이지 컨테이너 */
-.detail-container {
-    max-width: 900px;
+/* 컨텐츠 래퍼 스타일 */
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     margin: 20px auto;
-    padding: 40px;
+    max-width: 1200px;
+}
+
+/* 상세 페이지 컨텐츠 스타일 */
+.detail-container {
+    flex: 1;
+    padding: 50px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    margin-right: 20px;
+}
+
+
+.img-content {
+    flex: 1;
+    padding: 30px;
     background-color: #f9f9f9;
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     border: 1px solid #ddd;
 }
 
-h2 {
-    font-family: 'Comfortaa', sans-serif;
-    font-size: 24px;
-    color: #256137;
-    margin-bottom: 20px;
-    text-align: center;
+.img-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    position: relative;
+}
+
+#roadview {
+    width: 100%;
+    height: 50vh;
 }
 
 /* 텍스트 스타일 */
@@ -75,35 +96,31 @@ p span {
     color: #777;
 }
 
-hr {
-    border: none;
-    border-top: 1px solid #ddd;
-    margin: 20px 0;
+h2 {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 24px;
+    color: #256137;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-/* 버튼 스타일 */
-.button-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.button-group a, .button-group form {
+.explore-btn {
+    position: relative; /* 버튼 위치를 상대적으로 설정 */
     display: inline-block;
-}
-
-button {
-    background-color: #256137;
-    color: #fff;
-    border: none;
+    background-color: #FDFDFC;
+    color: #256137;
+    border: 1px solid #256137;
     padding: 12px 18px;
     border-radius: 8px;
-    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
     font-family: 'Nanum Gothic', sans-serif;
     transition: background-color 0.3s ease-in-out;
+    margin-top: 10px; /* 버튼과 로드뷰 간의 간격 설정 */
+    float: right;
 }
 
-button:hover {
+.explore-btn:hover {
     background-color: #83B692;
 }
 
