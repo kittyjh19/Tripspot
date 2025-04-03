@@ -33,13 +33,15 @@
         id,
         pw,
         name,
-        member_email
+        member_email,
+        member_role
         )
         VALUES (
         #{id},
         #{pw},
         #{name},
-        #{memberEmail}
+        #{memberEmail},
+        #{memberRole}
         )
     </insert>
 </mapper>
