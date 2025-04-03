@@ -23,7 +23,7 @@
         insert into board (board_type, title, content, member_id) values(#{boardType}, #{title}, #{content}, #{memberId})
     </insert>
 
-    <select id="selectAllBoards" resultMap="boardResultMap">
+    <select id="selectBoardAll" resultMap="boardResultMap">
         SELECT * FROM board ORDER BY board_type DESC, created_date DESC
     </select>
 
@@ -33,10 +33,10 @@
         WHERE board_no = #{no}
     </update>
 
-<!--    <select id="getAllBoardListById" resultMap="boardResultMap">-->
-<!--        SELECT * FROM board-->
-<!--    WHERE member_id = #{id}-->
-<!--    </select>-->
+    <select id="selectBoardListById" resultMap="boardResultMap">
+        SELECT * FROM board
+    WHERE member_id = #{id}
+    </select>
 
     <select id="selectBoardByNo" resultMap="boardResultMap">
         select * from board
@@ -53,7 +53,7 @@
         delete from board where board_no=#{no} and member_id = #{id}
     </delete>
 
-    <delete id ="deleteBoardAdmin" >
+    <delete id ="deleteBoardByAdmin" >
         delete from board where board_no=#{no}
     </delete>
 
