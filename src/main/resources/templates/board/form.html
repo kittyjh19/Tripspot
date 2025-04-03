@@ -13,9 +13,10 @@
 
 
   <div class="container">
-    <h2 th:text="${board != null} ? '✏️ 게시글 수정' : '✏️ 새 글 작성'"></h2>
 
-    <form th:action="@{${actionUrl}}" method="post">
+    <h2 text="'✏️'게시글 수정"></h2>
+
+    <form th:action="|@{/board/edit/}${board.boardNo}|" method="post">
 
       <!-- 제목 입력 -->
       <div class="form-group">

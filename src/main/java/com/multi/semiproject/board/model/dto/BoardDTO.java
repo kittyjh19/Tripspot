@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class BoardDTO {
     private int boardNo;
     //@Value("POST")
-    private String boardType;
+    private String boardType = "POST";
     private String title;
     private String content;
     private String memberId;

@@ -17,6 +17,12 @@
 
     </resultMap>
 
+
+
+    <insert id="insertBoard" parameterType="com.multi.semiproject.board.model.dto.BoardDTO">
+        insert into board (board_type, title, content, member_id) values(#{boardType}, #{title}, #{content}, #{memberId})
+    </insert>
+
     <select id="selectAllBoards" resultMap="boardResultMap">
         SELECT * FROM board ORDER BY board_type DESC, created_date DESC
     </select>
@@ -27,10 +33,10 @@
         WHERE board_no = #{no}
     </update>
 
-    <select id="getAllBoardListById" resultMap="boardResultMap">
-        SELECT * FROM board
-    WHERE member_id = #{id}
-    </select>
+<!--    <select id="getAllBoardListById" resultMap="boardResultMap">-->
+<!--        SELECT * FROM board-->
+<!--    WHERE member_id = #{id}-->
+<!--    </select>-->
 
     <select id="selectBoardByNo" resultMap="boardResultMap">
         select * from board
@@ -39,32 +45,21 @@
 
     <update id="updateBoard" parameterType="com.multi.semiproject.board.model.dto.BoardDTO">
         update board
-        set board_type = #{boardType}, title = #{title}, content = #{content},
+        set board_type = #{boardType}, title = #{title}, content = #{content}
+            where board_no = #{boardNo}
     </update>
 
+    <delete id ="deleteBoard" >
+        delete from board where board_no=#{no} and member_id = #{id}
+    </delete>
+
+    <delete id ="deleteBoardAdmin" >
+        delete from board where board_no=#{no}
+    </delete>
 
 
-<!--    <select id="selectBoardById" resultMap="boardResultMap">-->
-<!--        SELECT * FROM board WHERE id = #{id}-->
-<!--    </select>-->
 
-<!--    <insert id="insertBoard">-->
-<!--        INSERT INTO board (title, content, writer, is_notice, view_count, created_at)-->
-<!--        VALUES (#{title}, #{content}, #{writer}, #{isNotice}, 0, NOW())-->
-<!--    </insert>-->
 
-<!--    <update id="updateBoard">-->
-<!--        UPDATE board-->
-<!--        SET title = #{title}, content = #{content}, is_notice = #{isNotice}-->
-<!--        WHERE id = #{id}-->
-<!--    </update>-->
 
-<!--    <delete id="deleteBoard">-->
-<!--        DELETE FROM board WHERE id = #{id}-->
-<!--    </delete>-->
-
-<!--    <update id="increaseViewCount">-->
-<!--        UPDATE board SET view_count = view_count + 1 WHERE id = #{id}-->
-<!--    </update>-->
 
 </mapper>

@@ -23,5 +23,5 @@ public interface DistrictMapper {
     int insertTravelInfo(TravelDTO travelDTO);
 
     Optional<Integer> selectByTitle(TravelDTO travelDTO);
-    int updateBoard(BoardDTO board);
+
 }

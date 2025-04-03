@@ -17,44 +17,38 @@ public class BoardService  {
 
     private final BoardMapper boardMapper;
 
-    public List<BoardDTO> getAllBoards() {
-        return boardMapper.selectAllBoards();
+    public int insertBoard(BoardDTO board) {
+        return boardMapper.insertBoard(board);
     }
 
-    public List<BoardDTO> getAllBoardListById(String id) {
-        return boardMapper.getAllBoardListById(id);
+    public List<BoardDTO> selectBoardAll() {
+        return boardMapper.selectBoardAll();
     }
 
     public Optional<BoardDTO> selectBoardByNo(int no) {
+
         return boardMapper.selectBoardByNo(no);
     }
 
-    public void increaseViewCount(int id) {
-        boardMapper.increaseViewCount(id);
+
+    public int updateBoard(BoardDTO board) {
+        return boardMapper.updateBoard(board);
+    }
+    public int increaseViewCount(int no) {
+        return boardMapper.increaseViewCount(no);
+    }
+
+    public int deleteBoard(int no, String id) {
+        return boardMapper.deleteBoard(no, id);
+    }
+
+    public int deleteBoardByAdmin(int no) {
+        return boardMapper.deleteBoardByAdmin(no);
     }
 
 
-
-
-    //////////////////////////////////////////
-
-//    public Optional<BoardDTO> selectBoardByNo(int no) {
-//        //boardMapper.increaseViewCount(id);
-//        return boardMapper.selectBoardByNo(no);
-//    }
-
-
-    public void insertBoard(BoardDTO board) {
-        boardMapper.insertBoard(board);
-    }
-
-
-//    public int updateBoard(BoardDTO board) {
-//        return boardMapper.updateBoard(board);
-//    }
-
-    public void deleteBoard(int id) {
-        boardMapper.deleteBoard(id);
+    public List<BoardDTO> selectBoardListById(String id) {
+        return boardMapper.selectBoardListById(id);
     }
 
 }

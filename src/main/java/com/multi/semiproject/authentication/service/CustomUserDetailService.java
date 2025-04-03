@@ -50,6 +50,7 @@ public class CustomUserDetailService implements UserDetailsService {
         Map<String, List<String>> permitListMap = new HashMap<>();
         List<String> adminPermitList = new ArrayList<>();
         List<String> memberPermitList = new ArrayList<>();
+        memberPermitList.add("/board/**");
 
         permitListMap.put("adminPermitList", adminPermitList);
         permitListMap.put("memberPermitList", memberPermitList);
