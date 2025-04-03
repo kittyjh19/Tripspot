@@ -3,43 +3,64 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <meta charset="UTF-8">
-  <title>게시판 목록</title>
+  <title>게시판</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/boardlist.css}">
 </head>
 <body>
-<h2>📋 게시판 목록</h2>
 
-<table border="1">
-  <thead>
-  <tr>
-    <th>번호</th>
-    <th>제목</th>
-    <th>작성자</th>
-    <th>조회수</th>
-    <th>작성일</th>
-  </tr>
-  </thead>
-  <tbody>
-<!--  <tr th:each="post : ${boardList}">-->
-<!--    <td th:text="${post.id}"></td>-->
-<!--    <td>-->
-<!--      <a th:href="@{'/board/' + ${post.id}}">-->
-<!--        <span th:if="${post.notice}" style="color:red">[공지] </span>-->
-<!--        <span th:text="${post.title}"></span>-->
-<!--      </a>-->
-<!--    </td>-->
-<!--    <td th:text="${post.writer}"></td>-->
-<!--    <td th:text="${post.viewCount}"></td>-->
-<!--    <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></td>-->
-<!--  </tr>-->
-  </tbody>
-</table>
-<a href="/board/list/user">작성자가 작성한 모든 글 조회</a>
-<div style="margin-top: 20px;">
-  <a href="/board/write"><button>✏️ 새 글 작성</button></a>
-</div>
+
+<div th:replace="/common/header.html"></div>
+
+<main>
+  <h2>게시판</h2>
+
+
+  <table class="board-table">
+    <thead>
+    <tr>
+      <th>번호</th>
+      <th>제목</th>
+      <th>작성자</th>
+      <th>조회수</th>
+      <th>작성일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="post, stat : ${boardList}">
+      <td th:text="${stat.count}"></td>
+      <td>
+        <a th:href="@{'/board/detail/' + ${post.boardNo}}">
+          <span th:if="${post.boardType == 'NOTICE'}" class="notice-title">[공지] </span>
+          <span th:text="${post.title}"></span>
+        </a>
+      </td>
+      <td th:text="${post.memberId}"></td>
+      <td th:text="${post.viewCount}"></td>
+      <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="button-container">
+    <a href="/board/list/user">
+      <button class="board-write-btn">📝 내가 쓴 글 보기</button>
+    </a>
+    <a href="/board/write">
+      <button class="board-write-btn">✏️ 새 글 작성</button>
+    </a>
+  </div>
+</main>
+
+
+<div th:replace="/common/footer.html"></div>
+
 
 <script th:inline="javascript">
   console.log([[${boardList}]]);
 </script>
+
 </body>
 </html>
