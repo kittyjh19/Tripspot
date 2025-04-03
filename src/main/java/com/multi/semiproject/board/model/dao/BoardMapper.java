@@ -10,7 +10,13 @@ import java.util.Optional;
 public interface BoardMapper {
     int insertBoard(BoardDTO board);
 
-    List<BoardDTO> selectBoardAll();
+    int selectBoardCount(); // 전체 게시글 수 조회
+    int selectNormalBoardCount(); // 일반 게시글 수 조회
+    List<BoardDTO> selectNoticeBoardList(); // 공지 게시글 목록 조회
+
+    List<BoardDTO> selectBoardAll(@Param("offset") int offset, @Param("limit") int limit); // 페이징 처리
+    List<BoardDTO> selectNormalBoardList(@Param("offset") int offset, @Param("limit") int limit); // 일반 게시글 페이징 처리
+
     Optional<BoardDTO> selectBoardByNo(@Param("no") int no);
     List<BoardDTO> selectBoardListById(@Param("id") String id);
 
@@ -19,8 +25,5 @@ public interface BoardMapper {
 
     int deleteBoard(@Param("no")int no, @Param("id") String id);
     int deleteBoardByAdmin(int no);
-
-
-
 
 }

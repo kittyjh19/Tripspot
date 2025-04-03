@@ -3,27 +3,22 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <meta charset="UTF-8">
-  <title>TRIPSPOT</title>
+  <title>글 상세보기</title>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="/css/search.css">
-  <script src="/js/search.js" defer></script>
-
+  <link rel="stylesheet" type="text/css" th:href="@{/css/boardlist.css}">
 </head>
 <body>
 
 <div th:replace="/common/header.html"></div>
 
-
 <main>
-  <h1>게시글 상세</h1>
-
   <!-- 게시글이 존재하지 않을 경우 -->
   <p th:if="${board == null}">
     <span th:text="${currentUser}"></span>님의 게시글이 존재하지 않습니다.
   </p>
 
-  <div th:if="${board != null}">
+  <div class="board-detail-container" th:if="${board != null}">
     <h2 th:text="${board.title}"></h2>
     <hr>
     <p><strong>작성자:</strong> <span th:text="${board.memberId}"></span></p>
@@ -35,11 +30,11 @@
     </div>
     <hr>
     <div>
-      <a href="/board"><button>목록으로</button></a>
+      <a href="/board">목록으로</a>
 
       <!-- 작성자 또는 관리자만 수정/삭제 버튼 표시 -->
       <span th:if="${currentUser == board.memberId or isAdmin}">
-                <a th:href="@{'/board/edit/' + ${board.boardNo}}"><button>수정</button></a>
+                <a th:href="@{'/board/edit/' + ${board.boardNo}}">수정</a>
                 <form th:action="|@{/board/delete/}${board.boardNo}|"  style="display:inline;">
                     <button type="submit">삭제</button>
                 </form>

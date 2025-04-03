@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -42,22 +42,43 @@ public class BoardController {
     }
 
     @GetMapping // 게시판 리스트 조회 //board list 가져오는 부분
-    public String boardList(Model model) {
-        List<BoardDTO> boardlists = boardService.selectBoardAll();
-        if(boardlists.isEmpty())
+    public String boardList(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+        int pageSize = 10; // 한 페이지에 보여줄 게시글 수
+        // 공지글 목록 가져오기
+        List<BoardDTO> noticeList = boardService.selectNoticeBoardList();
+
+        // 일반 게시글 목록 가져오기 (페이지네이션 적용)
+        int totalNormalCount = boardService.selectNormalBoardCount();
+        int totalPages = (int) Math.ceil((double) totalNormalCount / pageSize);
+
+        if (page < 1 || page > totalPages) {
+            page = 1; // 잘못된 페이지 번호 처리
+        }
+
+        List<BoardDTO> normalList = boardService.selectNormalBoardList(page, pageSize - noticeList.size());
+
+        // 공지글 + 일반글 합치기
+        List<BoardDTO> boardList = new ArrayList<>();
+        boardList.addAll(noticeList);
+        boardList.addAll(normalList);
+
+        if(boardList.isEmpty())
             throw new RuntimeException("게시물이 없습니다.");
-        model.addAttribute("boardList", boardlists);
+
+        model.addAttribute("boardList", boardList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
         return "board/list";
     }
 
 
     @GetMapping("/detail/{no}") // 게시글 상세보기
-    public String boardDetail(@PathVariable int no, @AuthenticationPrincipal CustomUser user, Model model) {
+    public String boardDetail(@PathVariable("no") int boardNo, @AuthenticationPrincipal CustomUser user, Model model) {
 
-        BoardDTO board = boardService.selectBoardByNo(no)
-                .orElseThrow(() -> new IllegalArgumentException(no + "번 게시글이 존재하지 않습니다."));
+        BoardDTO board = boardService.selectBoardByNo(boardNo)
+                .orElseThrow(() -> new IllegalArgumentException(boardNo + "번 게시글이 존재하지 않습니다."));
 
-        int result = boardService.increaseViewCount(no);
+        int result = boardService.increaseViewCount(boardNo);
         if(result==0)
             throw new RuntimeException("게시글 조회수 업데이트 실패");
 
@@ -110,6 +131,7 @@ public class BoardController {
         //model.addAttribute("actionUrl", "/board/edit/" + board.getId());
         return "board/form";
     }
+
     @PostMapping("/edit/{boardno}") //update 게시글
     public String updateBoard(@PathVariable("boardno") int no,
                               @AuthenticationPrincipal CustomUser user,

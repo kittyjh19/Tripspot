@@ -17,14 +17,30 @@
 
     </resultMap>
 
-
-
     <insert id="insertBoard" parameterType="com.multi.semiproject.board.model.dto.BoardDTO">
         insert into board (board_type, title, content, member_id) values(#{boardType}, #{title}, #{content}, #{memberId})
     </insert>
 
+    <select id="selectNoticeBoardList" resultMap="boardResultMap">
+        SELECT * FROM board WHERE board_type = 'NOTICE' ORDER BY created_date DESC
+    </select>
+
+    <select id="selectBoardCount" resultType="int">
+        SELECT COUNT(*) FROM board
+    </select>
+
+    <select id="selectNormalBoardCount" resultType="int">
+        SELECT COUNT(*) FROM board WHERE board_type != 'NOTICE'
+    </select>
+
     <select id="selectBoardAll" resultMap="boardResultMap">
         SELECT * FROM board ORDER BY board_type DESC, created_date DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="selectNormalBoardList" resultMap="boardResultMap">
+        SELECT * FROM board WHERE board_type != 'NOTICE' ORDER BY created_date DESC
+            LIMIT #{limit} OFFSET #{offset}
     </select>
 
     <update id="increaseViewCount">
@@ -56,10 +72,5 @@
     <delete id ="deleteBoardByAdmin" >
         delete from board where board_no=#{no}
     </delete>
-
-
-
-
-
 
 </mapper>
