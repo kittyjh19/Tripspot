@@ -48,20 +48,11 @@ public class BoardController {
 //        return "redirect:/board";
 //    }
 //
-    @GetMapping("/list/user") //작성자가 작성한 모든 글 반환
-    public String allBoardListByUser(@AuthenticationPrincipal CustomUser user,
-                              Model model) throws Exception {
+    @GetMapping("/detail/{boardNo}")
+    public String getBoardDetail(@PathVariable("boardNo") int boardNo, Model model) {
+        BoardDTO board = boardService.selectBoardByNo(boardNo).orElse(null);
 
-        List<BoardDTO> boardList = boardService.getAllBoardListById(user.getId());
-        if(boardList.isEmpty())
-            throw new Exception("작성한 글이 없습니다.");
-
-        boolean isAdmin = user.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
-        model.addAttribute("boardList", boardList);
-        model.addAttribute("currentUser", user.getUsername());
-        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("board", board);
         return "board/detail";
     }
 //
