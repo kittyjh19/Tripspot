@@ -105,6 +105,17 @@ label {
     color: #333;
 }
 
+.container {
+    max-width: 800px; /* Increase width */
+    width: 90%; /* Ensure responsiveness */
+    padding: 40px;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
 input[type="text"], textarea {
     width: 100%; /* Ensure full width */
     max-width: 100%; /* Prevent overflow */
@@ -126,7 +137,6 @@ textarea {
     justify-content: space-between;
     margin-top: 20px;
 }
-
 
 
 .back-btn {
@@ -151,7 +161,6 @@ textarea {
     padding: 8px 16px; /* Adjust padding */
     font-size: 15px; /* Set font size */
 }
-
 
 .submit-btn{
     margin-top: 40px;

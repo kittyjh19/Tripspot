@@ -3,39 +3,52 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>게시글 작성</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/insertform.css}">
 </head>
 <body>
-<h1>게시글 등록</h1>
-<!--✏️ 새 글 작성'"-->
-  <form th:action="@{/board/write}" method="post">
-    <label>
-        title:
-        <input type = "text" name="title">
-    </label>
-      <label>
-          content:
-          <input type="text" name="content">
-      </label>
 
+<div th:replace="/common/header.html"></div>
+<div class="container">
+    <h2 th:text="'✏️ 게시글 등록'"></h2>
+    <form th:action="@{/board/write}" method="post">
 
-      <th:block th:if="${isAdmin}">
-          <div>
-              <!--      공지로 등록 클릭 시 NOTICE넘어감-->
-              <!--      공지로 등록 클릭 안하면 null-->
-              <label><input type="checkbox" name="boardType" value="NOTICE"> 공지로 등록</label>
-          </div>
-      </th:block>
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" id="title" name="title" required>
+        </div>
 
-      <th:block th:if="${!isAdmin}">
-          <div>
-              <label><input disabled type="checkbox"> 공지로 등록</label>
-              <input hidden name="boardType" value="POST">
-          </div>
-      </th:block>
+        <div class="form-group">
+            <label for="content">내용</label>
+            <textarea id="content" name="content" required></textarea>
+        </div>
 
-      <button type="submit">작성 완료</button>
-      <a href="/board"><button type="button">목록으로</button></a>
-  </form>
+        <th:block th:if="${isAdmin}">
+            <div class="form-group checkbox-group">
+                <label>
+                    <input type="checkbox" name="boardType" value="NOTICE"> 공지로 등록
+                </label>
+            </div>
+        </th:block>
+
+        <th:block th:if="${!isAdmin}">
+            <div class="form-group checkbox-group">
+                <label>
+                    <input disabled type="checkbox"> 공지로 등록
+                </label>
+                <input hidden name="boardType" value="POST">
+            </div>
+        </th:block>
+
+        <div class="button-group">
+            <button type="submit" class="submit-btn">작성 완료</button>
+            <a href="/board" class="btn back-btn">목록으로</a>
+        </div>
+    </form>
+</div>
+
+<div th:replace="/common/footer.html"></div>
 </body>
 </html>
