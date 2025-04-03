@@ -30,15 +30,12 @@ function makeOutListener(infowindow) {
         infowindow.close();
     };
 }
-
+//geocoder.addressSearch가 비동기 작업
+// 정상적으로 검색이 완료됐으면
 function getCoords(address) {
     return new Promise((resolve, reject) => {
-        //console.log(geocoder.addressSearch.constructor.name); // 출력 결과: function
-        geocoder.addressSearch(address, function (result, status) { //geocoder.addressSearch가 비동기 작업
-
-            // 정상적으로 검색이 완료됐으면
+        geocoder.addressSearch(address, function (result, status) {
             if (status === kakao.maps.services.Status.OK) {
-                //console.log(kakao.maps.LatLng.constructor.name) 출력 결과: function
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
                 resolve({x:coords.La, y:coords.Ma});
@@ -78,25 +75,22 @@ function getHomepage(homepage){
 }
 
 
-
 function displayInfo(place, savePlace){
     return ()=>{
         savePlace.saveObject = place;
         var positionkakao = new kakao.maps.LatLng(place.info.mapy, place.info.mapx);
 
         // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
-        roadviewClient.getNearestPanoId(positionkakao, 300, function(panoId) {
+        roadviewClient.getNearestPanoId(positionkakao, 100, function(panoId) {
             roadview.setPanoId(panoId, positionkakao); //panoId와 중심좌표를 통해 로드뷰 실행
         });
 
-        //district, title, description, tel li tage
         const titleBox = document.querySelector("#title");
-        const descriptionBox = document.querySelector("#desc");
+        //const descriptionBox = document.querySelector("#desc");
         const addressBox = document.querySelector("#addr");
         const districtBox = document.querySelector("#district");
         const phoneBox = document.querySelector("#phone");
         const homepageBox = document.querySelector("#homepage");
-
 
         titleBox.innerHTML = place.info.title;
         addressBox.innerHTML = place.info.address;

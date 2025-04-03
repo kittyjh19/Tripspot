@@ -83,9 +83,10 @@ public class DistrictController {
     public ResponseEntity<Object> registDistrict(@RequestBody TravelDTO travelDTO){
         int result = districtService.insertTravelInfo(travelDTO);
         if(result>0){
-
             return ResponseEntity.created(URI.create("/district/detail/"+result)).build();
-        }else{ //이미 저장된 지역도 없고, insert된 지역도 없는 경우
+        }
+
+        else{ //이미 저장된 지역도 없고, insert된 지역도 없는 경우
             HttpHeaders headers = new HttpHeaders();
             headers.add("Location", "/district/"+travelDTO.getDistrict());
             return ResponseEntity.status(303).headers(headers).build();
