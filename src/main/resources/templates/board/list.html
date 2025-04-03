@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시판 목록</title>
+</head>
+<body>
+<h2>📋 게시판 목록</h2>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>번호</th>
+    <th>제목</th>
+    <th>작성자</th>
+    <th>조회수</th>
+    <th>작성일</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="post : ${boardList}">
+    <td th:text="${post.id}"></td>
+    <td>
+      <a th:href="@{'/board/' + ${post.id}}">
+        <span th:if="${post.notice}" style="color:red">[공지] </span>
+        <span th:text="${post.title}"></span>
+      </a>
+    </td>
+    <td th:text="${post.writer}"></td>
+    <td th:text="${post.viewCount}"></td>
+    <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<div style="margin-top: 20px;">
+  <a href="/board/write"><button>✏️ 새 글 작성</button></a>
+</div>
+</body>
+</html>
