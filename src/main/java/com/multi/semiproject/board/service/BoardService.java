@@ -20,8 +20,7 @@ public class BoardService  {
     private final BoardMapper boardMapper;
 
     public List<BoardDTO> getAllBoards() {
-        List<BoardDTO> boardDTOS = boardMapper.selectAllBoards();
-        return boardDTOS;
+        return boardMapper.selectAllBoards();
     }
 
     public List<BoardDTO> getAllBoardListById(String id){
@@ -31,13 +30,13 @@ public class BoardService  {
     //////////////////////////////////////////
 
     public Optional<BoardDTO> selectBoardByNo(int no) {
-        //boardMapper.increaseViewCount(id);
+
         return boardMapper.selectBoardByNo(no);
     }
 
 
-    public void insertBoard(BoardDTO board) {
-        boardMapper.insertBoard(board);
+    public int insertBoard(BoardDTO board) {
+        return boardMapper.insertBoard(board);
     }
 
 
@@ -45,7 +44,15 @@ public class BoardService  {
         return boardMapper.updateBoard(board);
     }
 
-    public void deleteBoard(int id) {
-        boardMapper.deleteBoard(id);
+    public int deleteBoard(int no, String id) {
+        return boardMapper.deleteBoard(no, id);
+    }
+
+    public int deleteBoardAdmin(int no) {
+        return boardMapper.deleteBoardAdmin(no);
+    }
+
+    public void increaseViewCount(int no) {
+        boardMapper.increaseViewCount(no);
     }
 }

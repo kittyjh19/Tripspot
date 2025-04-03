@@ -9,13 +9,24 @@ import java.util.Optional;
 
 
 public interface BoardMapper {
+
+    int insertBoard(BoardDTO board);
+
     List<BoardDTO> selectAllBoards();
-    BoardDTO selectBoardById(int id);
-    void insertBoard(BoardDTO board);
-    void updateBoard(BoardDTO board);
-    void deleteBoard(int id);
-    void increaseViewCount(int id);
+
+    Optional<BoardDTO> selectBoardByNo(@Param("no") int no);
+
 
     List<BoardDTO> getAllBoardListById(@Param("id") String id);
-    Optional<BoardDTO> selectBoardByNo(@Param("no") int no);
+
+
+
+    void increaseViewCount(@Param("no") int no);
+
+
+    int updateBoard(BoardDTO board);
+
+
+    int deleteBoard(@Param("no")int no, @Param("id") String id);
+    int deleteBoardAdmin(int no);
 }

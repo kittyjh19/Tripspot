@@ -17,6 +17,12 @@
 
     </resultMap>
 
+
+
+    <insert id="insertBoard" parameterType="com.multi.semiproject.board.model.dto.BoardDTO">
+        insert into board (board_type, title, content, member_id) values(#{boardType}, #{title}, #{content}, #{memberId})
+    </insert>
+
     <select id="selectAllBoards" resultMap="boardResultMap">
         SELECT * FROM board
         ORDER BY board_type DESC, modified_date DESC
@@ -34,7 +40,20 @@
 
     <update id="updateBoard" parameterType="com.multi.semiproject.board.model.dto.BoardDTO">
         update board
-        set board_type = #{boardType}, title = #{title}, content = #{content},
+        set board_type = #{boardType}, title = #{title}, content = #{content}
+            where board_no = #{boardNo}
+    </update>
+
+    <delete id ="deleteBoard" >
+        delete from board where board_no=#{no} and member_id = #{id}
+    </delete>
+
+    <delete id ="deleteBoardAdmin" >
+        delete from board where board_no=#{no}
+    </delete>
+
+    <update id="increaseViewCount">
+        UPDATE board SET view_count = view_count + 1 WHERE board_no = #{no}
     </update>
 
 

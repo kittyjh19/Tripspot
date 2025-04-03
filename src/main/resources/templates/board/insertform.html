@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>게시글 등록</h1>
+  <form th:action="@{/board/write}" method="post">
+    <label>
+        title:
+        <input type = "text" name="title">
+    </label>
+      <label>
+          content:
+          <input type="text" name="content">
+      </label>
+
+
+      <th:block th:if="${isAdmin}">
+          <div>
+              <!--      공지로 등록 클릭 시 NOTICE넘어감-->
+              <!--      공지로 등록 클릭 안하면 null-->
+              <label><input type="checkbox" name="boardType" value="NOTICE"> 공지로 등록</label>
+          </div>
+      </th:block>
+
+      <th:block th:if="${!isAdmin}">
+          <div>
+              <label><input disabled type="checkbox"> 공지로 등록</label>
+              <input hidden name="boardType" value="POST">
+          </div>
+      </th:block>
+
+      <button type="submit">작성 완료</button>
+      <a href="/board"><button type="button">목록으로</button></a>
+  </form>
+</body>
+</html>

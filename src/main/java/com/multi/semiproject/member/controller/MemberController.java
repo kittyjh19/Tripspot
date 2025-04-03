@@ -25,7 +25,6 @@ public class MemberController {
     }
 
 
-
     @GetMapping("/register")
     public void memberRegist(){}
 
