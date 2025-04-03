@@ -36,7 +36,7 @@
       <span th:if="${currentUser == board.memberId or isAdmin}">
                 <a th:href="@{'/board/edit/' + ${board.boardNo}}">수정</a>
                 <form th:action="|@{/board/delete/}${board.boardNo}|"  style="display:inline;">
-                    <button type="submit">삭제</button>
+                    <button type="submit" class="delete-btn">삭제</button>
                 </form>
             </span>
     </div>
