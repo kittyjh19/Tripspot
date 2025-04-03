@@ -17,9 +17,6 @@
             margin-top: 170px;
             margin-left: 20px;
             margin-right: 20px;
-
-            /*justify-content: center;*/
-            /*align-items: flex-end;*/
         }
 
         #map{
@@ -29,7 +26,6 @@
         #roadview{
             margin-left: 10px;
         }
-
 
         #title {
             color: green;
@@ -47,9 +43,7 @@
             padding: 10px 0;
             border-top: 1px solid #ddd;
             border-bottom: 1px solid #ddd;
-
         }
-
 
         #saveInfo {
             display: block;
@@ -77,14 +71,6 @@
 
 <div th:replace="~{/common/header.html}"></div>
 
-<!--<p style="margin-top:-12px">-->
-<!--    <em class="link">-->
-<!--        <a href="javascript:void(0);" onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">-->
-<!--            혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요.-->
-<!--        </a>-->
-<!--    </em>-->
-<!--</p>-->
-<!--<div class="title" style="text-align: "></div>-->
 <div id="mapsBox">
     <div id="map" style="width:50%;height:45vh"></div>
     <div id="roadview" style="width:50%;height:45vh"></div>
@@ -108,18 +94,17 @@
 
 <button id="saveInfo" onclick="saveInfo()">관광 정보 저장</button>
 
-
-<!--<img id="placeImg" style="width:800px;height:800px">-->
-<!--<h2><span th:text="${travel.title}"></span></h2>-->
-
 <div th:replace="~{/common/footer.html}"></div>
 
 <script th:inline="javascript">
     var geocoder = new kakao.maps.services.Geocoder();
 
-    var roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
-    var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
-    var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+    //로드뷰를 표시할 div
+    var roadviewContainer = document.getElementById('roadview');
+    //로드뷰 객체
+    var roadview = new kakao.maps.Roadview(roadviewContainer);
+    //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+    var roadviewClient = new kakao.maps.RoadviewClient();
 
     let places = new Array();// 각 객체에 들어갈 정보: distrct, title, description, address, phone, homepage 주소, mapx(latitude), mapy(
     let savePlace = {
@@ -136,22 +121,23 @@
 
             }});
 
-        const coords = await getCoords(places[0].info.address); // places[0]: 상세보기 페이지에서 가져온 정보, 주소로 위도와 경도를 얻음
+        // places[0]: 상세보기 페이지에서 가져온 정보, 주소로 위도와 경도를 얻음
+        const coords = await getCoords(places[0].info.address);
 
         places[0].info.homepage = getHomepage("");
         places[0].info.mapx = coords.x;
         places[0].info.mapy = coords.y;
 
-
         displayInfo(places[0],savePlace)();
 
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
-                center: new kakao.maps.LatLng(places[0].info.mapy, places[0].info.mapx), // 지도의 중심좌표
+                // 지도의 중심좌표
+                center: new kakao.maps.LatLng
+                        (places[0].info.mapy, places[0].info.mapx),
                 level: 4 // 지도의 확대 레벨
             };
         var map = new kakao.maps.Map(mapContainer, mapOption);
-
 
         //한국 관광 공사 api request parameter 설정
         let url = "https://apis.data.go.kr/B551011/KorService1/locationBasedList1"
@@ -161,16 +147,17 @@
 
         const res = await fetch(`${url}?MobileOS=${mobileOs}&MobileApp=${mobileApp}&mapX=${places[0].info.mapx}&mapY=${places[0].info.mapy}&radius=${maxRadius}&serviceKey=${[[${@environment.getProperty('multi-semi.tour-api')}]]}&_type=json`)
 
+
         if(!res.ok){
             return new Error("해당 지역 주변에 관관 정보가 없습니다.");
         }
 
         const items = (await res.json()).response.body.items.item;//
-        //console.log(items);
+
         let count = 1;
         items.forEach(item =>{
             places.push({ info : {
-                    district : places[0].info.district, //getDistrictName(item.addr1),
+                    district : places[0].info.district,
                     title : item.title,
                     address: getAddress(item.addr1),
                     phone: getPhone(item.tel),
@@ -191,15 +178,14 @@
                 imageSize = new kakao.maps.Size(32, 32), // 마커이미지의 크기입니다
                 imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
-// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+            // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
             var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
                 markerPosition = new kakao.maps.LatLng(places[i].info.mapy,places[i].info.mapx); // 마커가 표시될 위치입니다
 
-
             var marker = new kakao.maps.Marker({
                 map: map, // 마커를 표시할 지도
-               position : markerPosition,
-               // position: new kakao.maps.LatLng(places[i].info.mapy,places[i].info.mapx), // 마커의 위치
+                position : markerPosition,
+                // position: new kakao.maps.LatLng(places[i].info.mapy,places[i].info.mapx), // 마커의 위치
                 title: places[i].info.title,
                 image : markerImage
             });
@@ -228,13 +214,14 @@
         // let resDetail = await fetch(`${urlDetail}?MobileOS=${mobileOsDetail}&MobileApp=${mobileAppDetail}&contentId=${place.info.contentid}&defaultYN=${defaultYNDetail}&overviewYN=${overviewYNDetail}&serviceKey=${[[${@environment.getProperty('multi-semi.tour-api')}]]}&_type=json`);
         urls = new Array();
 
+
         places.forEach((place,index)=>{
             if(index==0)
                 return;
+
             urls.push(
                 `${urlDetail}?MobileOS=${mobileOsDetail}&MobileApp=${mobileAppDetail}&contentId=${place.info.contentid}&defaultYN=${defaultYNDetail}&overviewYN=${overviewYNDetail}&serviceKey=${[[${@environment.getProperty('multi-semi.tour-api')}]]}&_type=json`
             )
-
         })
         //let requests = urls.map(url=>fetch(url))
         //console.log(requests);
@@ -243,10 +230,11 @@
         const results = await Promise.allSettled(
             urls.map(async (url) =>{ //비동기 익명 함수
                 const resp = await fetch(url); // 비동기 처리 기다림
+                console.log(resp);
                 return resp.text();
             })
         );
-
+        //console.log(results);
         //추출 과정 메모
         // console.log(results);
         // console.log(results[0]);
@@ -261,51 +249,11 @@
             places[count++].info.homepage = getHomepage(data.response.body.items.item[0].homepage);
         })
 
-
-
-        // 공통정보조회 api
-        //한국 관광 공사 api request parameter 설정
-        // https://apis.data.go.kr/B551011/KorService1/detailCommon1?MobileOS=WIN&MobileApp=multitravel&contentId=126508&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&overviewYN=Y&serviceKey=
-
-
-        // let urlDetail = "https://apis.data.go.kr/B551011/KorService1/detailCommon1"
-        // let mobileOsDetail = "WIN";
-        // let mobileAppDetail = "multiTravel";
-        // let defaultYNDetail = "Y"; // 제공되는 정보: booktour, createdtime, homepage, modifiedtime
-        // let overviewYNDetail = "Y";
-
-        //let firstImageYNDetail = "Y"; // firstImageYN=${firstImageYNDetail}&, 이미지를 제공 안하는 경우가 있기 때문에 로드뷰로 대체
-        //let areacodeDetail = "Y"; //이미 받음
-        //let catcodeYNDetail = "Y"; // 이미 받음
-        //let addinfoYNDetail = "Y"; // 이미 받음
-
-
-        // let resDetail = await fetch(`${urlDetail}?MobileOS=${mobileOsDetail}&MobileApp=${mobileAppDetail}&contentId=${place.info.contentid}&defaultYN=${defaultYNDetail}&overviewYN=${overviewYNDetail}&serviceKey=${[[${@environment.getProperty('multi-semi.tour-api')}]]}&_type=json`);
-        // if(!resDetail){
-        //     throw new Error("http request error");
-        // }
-        // let dataDetail = await resDetail.json();
-        // let itemsDetail = dataDetail.response.body.items.item
-        // place.info.homepage = getHomepage(itemsDetail[0].homepage);
-        // place.info.description = getDescription(itemsDetail[0].overview);
-
-
-        //position.placeInfo.test = "33";
-        //console.log(itemsDetail);
-        //console.log(position);
     }
 
     async function saveInfo(){
-        //alert("test");
-        //console.log(savePosition.saveObject);
-        //alert("save()");
-        //alert("save()");
-        const url = `/district/regist`;
 
-        //중복 검사
-        //const duplication = await fetch()
-        // alert("test");
-        // console.log(savePlace.saveObject.info);
+
 
 
         const district = savePlace.saveObject.info.district.includes("미제공") ? "" : savePlace.saveObject.info.district;
@@ -322,6 +270,7 @@
             phone: phone
         }
 
+        const url = `/district/regist`;
         const res = await fetch(url,{
             method : "post",
             body: JSON.stringify(data),
@@ -332,18 +281,10 @@
         if(!res.ok){
             throw new Error("http error")
         }
-        //console.log(res.url);
-        // console.log(res);
-        // console.log(res.headers.get("Location"));
+
         window.location.href = res.headers.get("Location")
-
-
-        //console.log(res)
 
     }
 </script>
 </body>
 </html>
-
-<!-- 참고 -->
-<!-- https://apis.map.kakao.com/web/sample/addr2coord/ -->
