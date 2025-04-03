@@ -85,11 +85,9 @@ function displayInfo(place, savePlace){
         var positionkakao = new kakao.maps.LatLng(place.info.mapy, place.info.mapx);
 
         // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
-        roadviewClient.getNearestPanoId(positionkakao, 500, function(panoId) {
+        roadviewClient.getNearestPanoId(positionkakao, 300, function(panoId) {
             roadview.setPanoId(panoId, positionkakao); //panoId와 중심좌표를 통해 로드뷰 실행
         });
-
-
 
         //district, title, description, tel li tage
         const titleBox = document.querySelector("#title");
@@ -100,21 +98,12 @@ function displayInfo(place, savePlace){
         const homepageBox = document.querySelector("#homepage");
 
 
-        //console.log(place.info.title)
-        //console.log(place);
-
         titleBox.innerHTML = place.info.title;
         addressBox.innerHTML = place.info.address;
         districtBox.innerHTML = place.info.district;
         phoneBox.innerHTML = place.info.phone;
         homepageBox.innerHTML = place.info.homepage;
-
-
-
-
-
     }
-
 }
 
 
