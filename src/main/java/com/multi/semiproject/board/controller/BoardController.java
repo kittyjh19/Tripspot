@@ -84,11 +84,14 @@ public class BoardController {
         return "board/form";
     }
 //
-//    @PostMapping("/edit/{id}")
-//    public String editSubmit(@PathVariable int id,
-//                             @AuthenticationPrincipal CustomUser user,
-//                             @ModelAttribute BoardDTO board) {
-//        BoardDTO existing = boardService.getBoardById(id);
+    @PostMapping("/edit")
+    public String editSubmit(@RequestParam("boardno") int no,
+                             @AuthenticationPrincipal CustomUser user,
+                             @ModelAttribute BoardDTO board) {
+        System.out.println("BoardController.editSubmit");
+//        BoardDTO existing = boardService.selectBoardByNo(no).orElseThrow(() -> new IllegalArgumentException(no+"번호의 게시글이 없습니다."));
+
+        int result = boardService.updateBoard(board);
 //        if (!existing.getWriter().equals(user.getUsername())) {
 //            throw new AccessDeniedException("수정 권한이 없습니다.");
 //        }
@@ -96,7 +99,8 @@ public class BoardController {
 //        board.setWriter(user.getUsername());
 //        boardService.updateBoard(board);
 //        return "redirect:/board/" + id;
-//    }
+        return null;
+    }
 //
 //    @PostMapping("/delete/{id}")
 //    public String deleteBoard(@PathVariable int id,

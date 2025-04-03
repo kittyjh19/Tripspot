@@ -13,3 +13,17 @@ INSERT INTO board (title,content,member_id) VALUES ("title3","content3","user");
 INSERT INTO board (title,content,member_id) VALUES ("title4","content4","user");
 INSERT INTO board (title,content,member_id) VALUES ("title5","content5","user");
 COMMIT;
+
+INSERT INTO board (title,content,member_id) VALUES ("title1","content1","admin");
+INSERT INTO board (title,content,member_id) VALUES ("title2","content2","admin");
+INSERT INTO board (title,content,member_id) VALUES ("title3","content3","admin");
+INSERT INTO board (title,content,member_id) VALUES ("title4","content4","admin");
+INSERT INTO board (title,content,member_id) VALUES ("title5","content5","admin");
+COMMIT;
+
+INSERT INTO board (title,content,member_id, board_type) VALUES ("title1","content1","admin","NOTICE");
+INSERT INTO board (title,content,member_id, board_type) VALUES ("title2","content2","admin","NOTICE");
+INSERT INTO board (title,content,member_id, board_type) VALUES ("title3","content3","admin","NOTICE");
+INSERT INTO board (title,content,member_id, board_type) VALUES ("title4","content4","admin","NOTICE");
+INSERT INTO board (title,content,member_id, board_type) VALUES ("title5","content5","admin","NOTICE");
+COMMIT;

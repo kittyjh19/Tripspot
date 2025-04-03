@@ -27,6 +27,20 @@ header h1 {
     font-size: 50px;
 }
 
+.search-area {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.search-area input {
+    padding: 20px;
+    width: 1000px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
 /* 본문 */
 main {
     flex-grow: 1;

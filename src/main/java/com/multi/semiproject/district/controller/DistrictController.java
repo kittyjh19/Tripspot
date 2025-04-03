@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.net.URI;
 import java.net.URLDecoder;
@@ -67,7 +66,7 @@ public class DistrictController {
     }
 
     @GetMapping("/map")
-    public String goMap(@RequestParam int no, Model model){
+    public String goMap(@RequestParam("no") int no, Model model){
         TravelDTO travel = districtService.getTravelByNo(no);
         model.addAttribute("travel", travel);
         return "map/map";

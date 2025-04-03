@@ -14,58 +14,62 @@
     <style>
         #mapsBox{
             display: flex;
-            margin-top: 150px;
+            margin-top: 170px;
             margin-left: 20px;
             margin-right: 20px;
 
             /*justify-content: center;*/
             /*align-items: flex-end;*/
         }
+
         #map{
             margin-right: 10px;
         }
+
         #roadview{
             margin-left: 10px;
         }
 
-        #title{
 
+        #title {
             color: green;
-            font-size: 24px;
-            text-align: center;
-            margin-top: 10px ;
-            margin-bottom: 0;
-            /*display: inline-block;*/
-            /*margin: auto;*/
-        }
-
-        #descBox{
-            /*margin-top: 40px;*/
-            margin-left: 40px;
-            margin-right: 40px;
-            text-align: center;
+            font-size: 28px;
             font-weight: bold;
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px; /* title과 textInfoBox 사이 간격 조절 */
         }
+
         #textInfoBox{
-            /*margin-top: 20px;*/
             display: flex;
-            margin-bottom:20px;
-            /*margin:auto;*/
-            justify-content: space-evenly;
+            justify-content: space-around;
+            margin-bottom: 10px;
+            padding: 10px 0;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
 
         }
-        #saveInfo{
-            display: inline;
-            text-align: right;
-            color: green;
-            /*border-style: solid;*/
-            /*border-color: black;*/
-            /*border-radius: 5px;*/
-            background : blue;
-            margin-top: 20px;
 
 
+        #saveInfo {
+            display: block;
+            margin: 30px auto;
+            background-color: #FDFDFC;
+            color: #256137;
+            border: 1px solid #256137;
+            padding: 14px 22px;
+            font-size: 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-family: 'Nanum Gothic', sans-serif;
+            transition: background-color 0.3s ease-in-out;
         }
+
+        #saveInfo:hover {
+            background-color: #83B692;
+        }
+
 
     </style>
 </head>
@@ -86,15 +90,25 @@
     <div id="roadview" style="width:50%;height:45vh"></div>
 </div>
 <p id="title"></p>
-<span type="button" id="saveInfo" style="display: inline" onclick="saveInfo()">관광 정보 저장</span>
 
-<div id="descBox"> <span id="desc"></span></div>
 <div id="textInfoBox">
-    <div id="addr"></div>
-    <div id="district"></div>
-    <div id="phone"></div>
+    <div class="info-item">
+        <strong>Address:</strong> <span id="addr"></span>
+    </div>
+    <div class="info-item">
+        <strong>District:</strong> <span id="district"></span>
+    </div>
+    <div class="info-item">
+        <strong>Phone:</strong> <span id="phone"></span>
+    </div>
+    <div class="info-item">
+        <strong>Homepage:</strong> <span id="homepage"></span>
+    </div>
 </div>
-<div style="text-align: center">Homepage: <span id="homepage"></span></div>
+
+<button id="saveInfo" onclick="saveInfo()">관광 정보 저장</button>
+
+
 <!--<img id="placeImg" style="width:800px;height:800px">-->
 <!--<h2><span th:text="${travel.title}"></span></h2>-->
 
@@ -163,6 +177,8 @@
                     contentid : item.contentid,
                     mapx : item.mapx,
                     mapy : item.mapy,
+                    description : "",
+                    homepage : ""
                 }});
 
         })
@@ -189,6 +205,7 @@
             kakao.maps.event.addListener(marker,"click",displayInfo(places[i], savePlace));
             kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
         }
+        console.log(places);
     })
 
     async function setDetails(places){
@@ -213,12 +230,12 @@
         //console.log(requests);
         //console.log(urls);
 
-       const results = await Promise.allSettled(
-           urls.map(async (url) =>{ //비동기 익명 함수
-               const resp = await fetch(url); // 비동기 처리 기다림
-               return resp.text();
-           })
-       );
+        const results = await Promise.allSettled(
+            urls.map(async (url) =>{ //비동기 익명 함수
+                const resp = await fetch(url); // 비동기 처리 기다림
+                return resp.text();
+            })
+        );
 
         //추출 과정 메모
         // console.log(results);
@@ -227,12 +244,12 @@
         // console.log(JSON.parse(results[0].value));
         // console.log(JSON.parse(results[0].value).response.body.items.item[0].overview);
 
-       let count = 1;
-       results.forEach(result=>{
-           const data = JSON.parse(result.value);
-           places[count].info.description = getDescription(data.response.body.items.item[0].overview);
-           places[count++].info.homepage = getHomepage(data.response.body.items.item[0].homepage);
-       })
+        let count = 1;
+        results.forEach(result=>{
+            const data = JSON.parse(result.value);
+            places[count].info.description = getDescription(data.response.body.items.item[0].overview);
+            places[count++].info.homepage = getHomepage(data.response.body.items.item[0].homepage);
+        })
 
 
 
@@ -277,6 +294,8 @@
 
         //중복 검사
         //const duplication = await fetch()
+        alert("test");
+        console.log(savePlace.saveObject.info);
 
 
         const district = savePlace.saveObject.info.district.includes("미제공") ? "" : savePlace.saveObject.info.district;
