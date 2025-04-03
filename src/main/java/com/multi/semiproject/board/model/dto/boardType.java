@@ -1,8 +1,8 @@
 //package com.multi.semiproject.board.model.dto;
 //
 //
-//public class BoardDTO {
-//
-//    private Long no;
+//public enum boardType {
+//    NOTICE,
+//    POST
 //
 //}
