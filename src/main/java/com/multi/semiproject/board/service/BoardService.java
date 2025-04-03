@@ -21,8 +21,36 @@ public class BoardService  {
         return boardMapper.insertBoard(board);
     }
 
-    public List<BoardDTO> selectBoardAll() {
-        return boardMapper.selectBoardAll();
+    public List<BoardDTO> selectBoardAll(int page, int pageSize) {
+        int totalCount = boardMapper.selectBoardCount(); //전체 게시글 수 조회
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize); //전체 페이지 수 계산
+
+        //잘못된 페이지 번호 요청 처리
+        if (page < 1 || page > totalPages) {
+            page = 1; // 첫 페이지로 설정
+        }
+
+        int offset = (page - 1) * pageSize; //offset 계산
+        List<BoardDTO> boardList = boardMapper.selectBoardAll(offset, pageSize); //페이징된 게시글 목록 조회
+
+        return boardList;
+    }
+
+    public int selectBoardCount(){
+        return boardMapper.selectBoardCount();
+    }
+
+    public List<BoardDTO> selectNoticeBoardList() {
+        return boardMapper.selectNoticeBoardList();
+    }
+
+    public List<BoardDTO> selectNormalBoardList(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        return boardMapper.selectNormalBoardList(offset, pageSize);
+    }
+
+    public int selectNormalBoardCount() {
+        return boardMapper.selectNormalBoardCount();
     }
 
     public Optional<BoardDTO> selectBoardByNo(int no) {
