@@ -16,14 +16,12 @@ public class CustomUser implements UserDetails {
 
     private final String id;
     private final String pw;
-    private final String memberEmail;
     private final Collection<? extends GrantedAuthority> authorities;
 
     public CustomUser(MemberDTO member, Collection<? extends GrantedAuthority> authorities){
         this.authorities =  authorities;
         this.id  = member.getId();
         this.pw  = member.getPw();
-        this.memberEmail  = member.getMemberEmail();
     }
 
 
