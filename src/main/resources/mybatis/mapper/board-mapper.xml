@@ -34,7 +34,7 @@
 
     <update id="updateBoard" parameterType="com.multi.semiproject.board.model.dto.BoardDTO">
         update board
-        set board_type = #{boardType}, title = #{title}, content = #{content}, 
+        set board_type = #{boardType}, title = #{title}, content = #{content},
     </update>
 
 
