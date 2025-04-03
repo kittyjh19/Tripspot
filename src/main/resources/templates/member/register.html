@@ -31,7 +31,7 @@
             cursor: pointer;                /* Pointer cursor on hover */
             transition: all 0.3s ease;       /* Smooth transition for effects */
         }
-        .btn-success {
+        .btn-disable {
             padding: 10px 20px;              /* Adds some space inside the button */
             font-size: 16px;                 /* Set a nice font size */
             font-family: 'Nanum Gothic', sans-serif; /* Matches your other text */
@@ -68,7 +68,7 @@
             <label for="name">이름:</label>
             <input type="text" class="form-control" id="name" name="name" required>
         </div>
-        <button disabled type="submit" class="btn btn-success">회원가입</button>
+        <button disabled type="submit" class="btn btn-success btn-disable">회원가입</button>
     </form>
 </div>
 <div th:replace="/common/footer.html"></div>
@@ -89,6 +89,7 @@
                     alert('이미 사용 중인 아이디입니다.');
                 } else {
                     registBtn.disabled = false;
+                    registBtn.classList.remove("btn-disable");
                     alert('사용 가능한 아이디입니다.');
                 }
             })
@@ -96,6 +97,8 @@
                 console.error('Error:', error);
             });
     });
+
+
 </script>
 </body>
 </html>
