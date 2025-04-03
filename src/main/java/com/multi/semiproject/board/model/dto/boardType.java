@@ -1,8 +1,8 @@
-//package com.multi.semiproject.board.model.dto;
-//
-//
-//public enum boardType {
-//    NOTICE,
-//    POST
-//
-//}
+package com.multi.semiproject.board.model.dto;
+
+
+public enum boardType {
+    NOTICE,
+    POST
+
+}

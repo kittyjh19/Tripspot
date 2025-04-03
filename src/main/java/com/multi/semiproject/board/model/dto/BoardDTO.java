@@ -1,8 +1,24 @@
-//package com.multi.semiproject.board.model.dto;
-//
-//
-//public class BoardDTO {
-//
-//    private Long no;
-//
-//}
+package com.multi.semiproject.board.model.dto;
+
+
+import lombok.*;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Data
+@ToString
+public class BoardDTO {
+    private int boardNo;
+    private String boardType;
+    private String title;
+    private String content;
+    private String memberId;
+    private int viewCount;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
+
+
+}

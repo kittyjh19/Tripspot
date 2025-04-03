@@ -1,31 +1,38 @@
-//package com.multi.semiproject.board.controller;
-//
-//import com.multi.semiproject.board.model.dto.BoardDTO;
-//import com.multi.semiproject.board.service.BoardService;
-//import com.multi.semiproject.authentication.dto.CustomUser;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.access.AccessDeniedException;
-//import org.springframework.security.core.annotation.AuthenticationPrincipal;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//@Controller
-//@RequestMapping("/board")
-//public class BoardController {
-//
-//    @Autowired
-//    private BoardService boardService;
-//
-//    @GetMapping
-//    public String boardList(Model model) {
-//        List<BoardDTO> list = boardService.getAllBoards();
-//        model.addAttribute("boardList", list);
+package com.multi.semiproject.board.controller;
+
+import com.multi.semiproject.board.model.dto.BoardDTO;
+import com.multi.semiproject.authentication.dto.CustomUser;
+import com.multi.semiproject.board.service.BoardService;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/board")
+@RequiredArgsConstructor
+public class BoardController {
+
+    private final BoardService boardService;
+
+//    @GetMapping("/")
+//    public String goBoard(){
 //        return "board/list";
 //    }
-//
+
+    @GetMapping //board list 가져오는 부분
+    public String boardList(Model model) {
+        List<BoardDTO> boardlists = boardService.getAllBoards();
+        model.addAttribute("boardList", boardlists);
+        return "board/list";
+    }
+
 //    @GetMapping("/write")
 //    public String writeForm(Model model) {
 //        model.addAttribute("actionUrl", "/board/write");
@@ -94,4 +101,4 @@
 //        }
 //        return "redirect:/board";
 //    }
-//}
+}
