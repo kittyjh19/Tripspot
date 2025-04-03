@@ -177,6 +177,8 @@
                     contentid : item.contentid,
                     mapx : item.mapx,
                     mapy : item.mapy,
+                    description : "",
+                    homepage : ""
                 }});
 
         })
@@ -203,6 +205,7 @@
             kakao.maps.event.addListener(marker,"click",displayInfo(places[i], savePlace));
             kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
         }
+        console.log(places);
     })
 
     async function setDetails(places){
@@ -291,6 +294,8 @@
 
         //중복 검사
         //const duplication = await fetch()
+        alert("test");
+        console.log(savePlace.saveObject.info);
 
 
         const district = savePlace.saveObject.info.district.includes("미제공") ? "" : savePlace.saveObject.info.district;

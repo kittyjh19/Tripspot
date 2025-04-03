@@ -90,6 +90,8 @@ public class BoardController {
                              @ModelAttribute BoardDTO board) {
         System.out.println("BoardController.editSubmit");
 //        BoardDTO existing = boardService.selectBoardByNo(no).orElseThrow(() -> new IllegalArgumentException(no+"번호의 게시글이 없습니다."));
+
+        int result = boardService.updateBoard(board);
 //        if (!existing.getWriter().equals(user.getUsername())) {
 //            throw new AccessDeniedException("수정 권한이 없습니다.");
 //        }

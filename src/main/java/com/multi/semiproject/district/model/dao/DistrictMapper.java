@@ -1,6 +1,7 @@
 package com.multi.semiproject.district.model.dao;
 
 
+import com.multi.semiproject.board.model.dto.BoardDTO;
 import com.multi.semiproject.district.model.dto.TravelDTO;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,4 +23,5 @@ public interface DistrictMapper {
     int insertTravelInfo(TravelDTO travelDTO);
 
     Optional<Integer> selectByTitle(TravelDTO travelDTO);
+    int updateBoard(BoardDTO board);
 }
