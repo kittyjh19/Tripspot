@@ -41,8 +41,8 @@ public class BoardService  {
     }
 
 
-    public void updateBoard(BoardDTO board) {
-        boardMapper.updateBoard(board);
+    public int updateBoard(BoardDTO board) {
+        return boardMapper.updateBoard(board);
     }
 
     public void deleteBoard(int id) {
