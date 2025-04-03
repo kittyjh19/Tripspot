@@ -27,8 +27,7 @@
   }
 
   .search-area {
-    text-align: left; /* 왼쪽 정렬 */
-    margin-left: 20px;
+    text-align: center; /* 내부 요소들 가운데 정렬 */
     margin-top: 60px;
   }
 
@@ -36,44 +35,10 @@
     color: #256137;
     font-size: 50px;
     margin-top: 20px;
-    margin-left: 20px;
-  }
-
-  .divider {
-    width: calc(100% - 660px);
-    border-top: 2px solid #BB9338;
-    margin: 20px;
-  }
-
-  .random-title {
-    margin-left: 20px; /* 왼쪽 정렬 조정 */
-    display: block; /* 블록 요소로 변경 */
-  }
-
-  .search-table {
-    width: calc(100% - 100px);
-    border-collapse: collapse;
-    margin-top: 10px;
-    margin-left: 20px;
-  }
-
-  .search-table th, .search-table td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
-  }
-
-  .search-table th {
-    background-color: #ddd;
-  }
-
-  .search-table a {
-    text-decoration: none;
-    color: #256137;
-  }
-
-  .search-table a:hover {
-    text-decoration: underline;
+    margin-left: auto; /* 왼쪽 마진 자동 */
+    margin-right: auto; /* 오른쪽 마진 자동 */
+    text-align: center; /* 텍스트도 가운데 정렬 */
+    display: block; /* 블록 요소로 변경해야 `margin: auto;` 적용 가능 */
   }
 
 </style>
@@ -109,33 +74,11 @@
   </div>
 
   <h1 class="no-results" th:if="${#lists.isEmpty(searchResults)}">
-    <span th:text="${query}"></span> 지역에 대한 검색 결과가 없습니다.
+    '<span id="searchQuery" th:text="${query}"></span>'에 대한 검색 결과가 없습니다.
   </h1>
+  <input type="hidden" id="districtName" value="">
   <div class="divider"></div>
 
-  <h3 class="random-title">랜덤 추천 관광지</h3>
-  <table class="search-table">
-    <thead>
-    <tr>
-      <th>권역명</th>
-      <th>관광지</th>
-      <th>주소</th>
-      <th>전화번호</th>
-      <th>바로가기</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="result : ${randomResults}">
-      <td th:text="${result.district}"></td>
-      <td th:text="${result.title}"></td>
-      <td th:text="${result.address}"></td>
-      <td th:text="${result.phone}"></td>
-      <td>
-        <a th:href="@{/travel/details/{id}(id=${result.id})}" class="btn btn-primary">바로가기</a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
 
 </main>
 
@@ -156,4 +99,3 @@
 </footer>
 </body>
 </html>
-//
