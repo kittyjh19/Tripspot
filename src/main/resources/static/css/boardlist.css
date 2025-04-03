@@ -157,6 +157,9 @@ h2 {
 .board-write-btn:hover {
     background-color: #1b4726;
 }
+.delete-btn{
+    height: 41px;
+}
 
 /* 게시글 상세 컨테이너 */
 .board-detail-container {
