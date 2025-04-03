@@ -78,13 +78,16 @@ public class BoardController {
     public String allBoardListByUser(@AuthenticationPrincipal CustomUser user,
                                      Model model) {
 
-
         List<BoardDTO> boardList = boardService.selectBoardListById(user.getId());
         if(boardList.isEmpty())
             throw new RuntimeException("사용자가 작성한 게시글이 없습니다.");
-
+        boolean isAdmin = user.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        String currentUser = user.getId();
+        model.addAttribute("currentUser",currentUser);
+        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("boardList", boardList);
-        return "board/detailㅅㅅㅅㅅ"; //아직 안됨
+        return "board/listbyuser"; //아직 안됨
     }
 
 
