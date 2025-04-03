@@ -1,0 +1,185 @@
+body {
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+header {
+    position: fixed; /* 헤더를 고정 */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    background-color: #256137;
+    color: #FDFDFC;
+    display: flex;
+    justify-content: space-between; /* 좌우로 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    padding: 20px;
+    height: 100px; /* 고정된 높이 설정 */
+    overflow: hidden;
+}
+
+header h1 {
+    font-family: 'Comfortaa', sans-serif;
+    text-align: left;
+    margin: 0;
+    font-size: 50px;
+}
+
+main {
+    flex-grow: 1;
+    padding-top: 200px; /* This should be greater than or equal to the header's height */
+    font-family: 'Nanum Gothic', sans-serif;
+    min-height: 100vh; /* Ensure content stretches if necessary */
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* 위쪽 여백 추가 */
+}
+
+.register-button {
+    padding: 13px 25px; /* 상하, 좌우 여백 조정 */
+    margin-top: 50px;
+    font-size: 17px; /* 글자 크기 조정 */
+    font-family: 'Nanum Gothic', sans-serif;
+    background-color: #FDFDFC; /* 버튼 배경색 */
+    color: #256137; /* 글자색 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    cursor: pointer; /* 커서 모양 변경 */
+    transition: background-color 0.3s; /* 호버 시 부드러운 전환 효과 */
+}
+
+.login-button {
+    padding: 13px 30px;
+    margin-top: 50px;
+    font-size: 17px;
+    font-family: 'Nanum Gothic', sans-serif;
+    background-color: #FDFDFC;
+    color: #256137;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.register-button:hover {
+    background-color: #C9E2D0;
+}
+
+.login-button:hover {
+    background-color: #C9E2D0;
+}
+.container {
+    max-width: 800px; /* Increase width */
+    width: 90%; /* Ensure responsiveness */
+    padding: 40px;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #256137;
+    font-family: 'Comfortaa', sans-serif;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+}
+
+input[type="text"], textarea {
+    width: 100%; /* Ensure full width */
+    max-width: 100%; /* Prevent overflow */
+    padding: 15px; /* More padding for better appearance */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+/* Make textarea larger */
+textarea {
+    min-height: 200px; /* Taller for better input visibility */
+    resize: vertical;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.button-group button,
+button, .btn {
+    margin-top: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    font-size: 15px;
+    line-height: 1.2;
+    height: 40px;
+    background-color: #256137;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s;
+
+}
+
+.back-btn {
+    margin-top: 45px;
+    width: 70px; /* Set specific width */
+    height: 25px; /* Set specific height */
+    padding: 8px 16px; /* Adjust padding */
+    font-size: 15px; /* Set font size */
+}
+
+
+
+.back-btn:hover {
+    background: #1e4b2a;
+}
+
+.submit-btn:hover {
+    background: #1e4b2a;
+}
+
+
+
+
+footer {
+    position: fixed; /* 푸터를 고정 */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 18px;
+    padding: 10px;
+    background-color: #E7EBE8;
+    color: #256137;
+    margin-top: auto; /* footer가 항상 하단에 있도록 설정 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+}
+
